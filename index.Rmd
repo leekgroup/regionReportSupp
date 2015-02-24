@@ -1,13 +1,23 @@
 ---
 output:
   html_document:
-    toc: true
     theme: united
   knitrBootstrap::bootstrap_document:
     theme.chooser: TRUE
     highlight.chooser: TRUE
 ---
 
-README
-======
+`regionReport` supplementary website
+====================================
 
+This is the supplementary website for the `regionReport` paper. It contains the reports for three different data sets as described in the `derfinder` paper [bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370).
+
+The three reports can be viewed following these links:
+
+* [brainspan](/brainspan/basicExploration.html)
+* [hippo](/hippo/basicExploration.html)
+* [simulation](/simulation/basicExploration.html)
+
+Note that each report is around 40-50 MB in size and can take some time to load.
+
+The code used for generating these reports is available at the `derfinder` paper [bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370) supplementary website [derSoftware](http://lcolladotor.github.io/regionReportSupp/).
