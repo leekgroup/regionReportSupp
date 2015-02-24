@@ -14,9 +14,9 @@ This is the supplementary website for the `regionReport` paper. It contains the 
 
 The three reports can be viewed following these links:
 
-* [brainspan](/brainspan/basicExploration.html)
-* [hippo](/hippo/basicExploration.html)
-* [simulation](/simulation/basicExploration.html)
+* [brainspan](/regionReportSupp/brainspan/basicExploration.html)
+* [hippo](/regionReportSupp/hippo/basicExploration.html)
+* [simulation](/regionReportSupp/simulation/basicExploration.html)
 
 Note that each report is around 40-50 MB in size and can take some time to load.
 
