@@ -10,7 +10,7 @@ output:
 `regionReport` supplementary website
 ====================================
 
-This is the supplementary website for the `regionReport` paper. It contains the reports for three different data sets as described in the `derfinder` paper [bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370).
+This is the supplementary website for the `regionReport` paper. It contains the reports for three different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)).
 
 The three reports can be viewed following these links:
 
@@ -20,4 +20,4 @@ The three reports can be viewed following these links:
 
 Note that each report is around 40-50 MB in size and can take some time to load.
 
-The code used for generating these reports is available at the `derfinder` paper [bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370) supplementary website [derSoftware](http://lcolladotor.github.io/regionReportSupp/).
+The code used for generating these reports is available at the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)) supplementary website [derSoftware](http://lcolladotor.github.io/regionReportSupp/).
