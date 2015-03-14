@@ -10,7 +10,7 @@ output:
 `DiffBind` example
 ==================
 
-The [DiffBind](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind) package can be used for ChIP-seq analyses where you are interested in identifying differentially bound sites. The [vignette](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf) explains in greater detail the data set we are using in this example.
+The [DiffBind](http://bioconductor.org/packages/release/bioc/html/DiffBind.html) package can be used for ChIP-seq analyses where you are interested in identifying differentially bound sites. The [vignette](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf) explains in greater detail the data set we are using in this example.
 
 ```{r 'loadDiff'}
 ## Load DiffBind

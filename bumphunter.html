@@ -52,12 +52,13 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 
 
-<div id="diffbind-example" class="section level1">
-<h1><code>DiffBind</code> example</h1>
-<p>The <a href="http://bioconductor.org/packages/release/bioc/html/DiffBind.html">DiffBind</a> package can be used for ChIP-seq analyses where you are interested in identifying differentially bound sites. The <a href="http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf">vignette</a> explains in greater detail the data set we are using in this example.</p>
-<pre class="r"><code>## Load DiffBind
-library('DiffBind')</code></pre>
-<pre><code>## Loading required package: GenomicRanges
+<div id="bumphunter-example" class="section level1">
+<h1><code>bumphunter</code> example</h1>
+<p>The <a href="http://bioconductor.org/packages/release/bioc/html/bumphunter.html">bumphunter</a> package can be used for methylation analyses where you are interested in identifying differentially methylated regions. The <a href="http://bioconductor.org/packages/release/bioc/vignettes/bumphunter/inst/doc/bumphunter.pdf">vignette</a> explains in greater detail the data set we are using in this example.</p>
+<pre class="r"><code>## Load bumphunter
+library('bumphunter')</code></pre>
+<pre><code>## Loading required package: S4Vectors
+## Loading required package: stats4
 ## Loading required package: BiocGenerics
 ## Loading required package: parallel
 ## 
@@ -82,150 +83,145 @@ library('DiffBind')</code></pre>
 ##     rbind, Reduce, rep.int, rownames, sapply, setdiff, sort,
 ##     table, tapply, union, unique, unlist, unsplit
 ## 
-## Loading required package: S4Vectors
-## Loading required package: stats4
 ## Loading required package: IRanges
 ## Loading required package: GenomeInfoDb
-## Loading required package: limma
-## 
-## Attaching package: 'limma'
-## 
-## The following object is masked from 'package:BiocGenerics':
-## 
-##     plotMA
-## 
-## Loading required package: GenomicAlignments
-## Loading required package: Biostrings
-## Loading required package: XVector</code></pre>
-<pre><code>## Warning: multiple methods tables found for 'score'</code></pre>
-<pre><code>## Loading required package: Rsamtools
+## Loading required package: GenomicRanges
+## Loading required package: foreach
+## Loading required package: iterators
 ## Loading required package: locfit
-## locfit 1.5-9.1    2013-03-22
-## 
-## Attaching package: 'locfit'
-## 
-## The following objects are masked from 'package:GenomicAlignments':
-## 
-##     left, right
-## 
-## Loading required package: DBI</code></pre>
-<pre class="r"><code>## Retrieve differentially bounded sites
-data(tamoxifen_analysis)
-regions &lt;- dba.report(tamoxifen, th = 1)
+## locfit 1.5-9.1    2013-03-22</code></pre>
+<pre><code>## Warning: multiple methods tables found for 'score'</code></pre>
+<pre class="r"><code>## Create data from the vignette
+pos &lt;- list(pos1=seq(1, 1000, 35),
+            pos2=seq(2001, 3000, 35),
+            pos3=seq(1, 1000, 50))
+chr &lt;- rep(paste0('chr', c(1, 1, 2)), times = sapply(pos, length))
+pos &lt;- unlist(pos, use.names = FALSE)
 
-## Explore quickly
-regions</code></pre>
-<pre><code>## GRanges object with 1772 ranges and 6 metadata columns:
-##        seqnames               ranges strand   |             Conc
-##           &lt;Rle&gt;            &lt;IRanges&gt;  &lt;Rle&gt;   |        &lt;numeric&gt;
-##    846    chr18 [34597337, 34598560]      *   | 5.82702702849364
-##    258    chr18 [10023641, 10024769]      *   |  6.4142899155369
-##    542    chr18 [21575222, 21575958]      *   | 5.61065475202444
-##      9    chr18 [  394600,   396513]      *   |  6.9461632656995
-##   1720    chr18 [74368318, 74370013]      *   | 7.92711543517715
-##    ...      ...                  ...    ... ...              ...
-##    409    chr18 [18894223, 18895154]      *   | 4.10690573317166
-##    676    chr18 [28508727, 28509575]      *   | 3.54013738766264
-##   1024    chr18 [43438156, 43439312]      *   | 6.89925519318043
-##    599    chr18 [23922382, 23923418]      *   | 4.27220736019115
-##    447    chr18 [19748164, 19749762]      *   | 5.31208274736173
-##          Conc_Resistant  Conc_Responsive                Fold
-##               &lt;numeric&gt;        &lt;numeric&gt;           &lt;numeric&gt;
-##    846 1.45276744477407 6.45358293585542   -5.00081549108135
-##    258 7.60419190544083 4.51344869876694    3.09074320667388
-##    542 6.80601911260069 3.68292214647758    3.12309696612311
-##      9 8.17798159966392 4.82181957316395    3.35616202649998
-##   1720  3.7813091211569 8.54924679408552   -4.76793767292862
-##    ...              ...              ...                 ...
-##    409 4.13413046508689 4.09111492626211  0.0430155388247737
-##    676 3.56091175977416 3.52813061159235   0.032781148181813
-##   1024 6.90115862321196 6.89816639028881 0.00299223292314377
-##    599 4.28084256525898  4.2672496517936  0.0135929134653798
-##    447 5.30472762878968 5.31626889762693 -0.0115412688372434
-##                     p.value                  FDR
-##                   &lt;numeric&gt;            &lt;numeric&gt;
-##    846 5.49982074824107e-08 9.61676744927065e-05
-##    258 1.51525489145341e-07 9.61676744927065e-05
-##    542 2.10965736912273e-07 9.61676744927065e-05
-##      9 2.17082786665252e-07 9.61676744927065e-05
-##   1720 2.94569330888335e-07 0.000104395370866826
-##    ...                  ...                  ...
-##    409    0.993989645045803    0.996238490396585
-##    676    0.995883334792558    0.997572226824428
-##   1024    0.996568234385109    0.997694300186674
-##    599     0.99776601774699    0.998329409061359
-##    447    0.999495376475443    0.999495376475443
-##   -------
-##   seqinfo: 1 sequence from an unspecified genome; no seqlengths</code></pre>
-<pre class="r"><code>## Note that the chromosome information is missing
-seqlengths(regions)</code></pre>
-<pre><code>## chr18 
-##    NA</code></pre>
-<pre class="r"><code>## Add chromosome length
+## Find clusters
+cl &lt;- clusterMaker(chr, pos, maxGap = 300)
+
+## Build simulated bumps
+Indexes &lt;- split(seq_along(cl), cl)
+beta1 &lt;- rep(0, length(pos))
+for(i in seq(along=Indexes)){
+    ind &lt;- Indexes[[i]]
+    x &lt;- pos[ind]
+    z &lt;- scale(x, median(x), max(x)/12)
+    beta1[ind] &lt;- i*(-1)^(i+1)*pmax(1-abs(z)^3,0)^3 ##multiply by i to vary size
+}
+
+## Build data
+beta0 &lt;- 3 * sin(2 * pi * pos / 720)
+X &lt;- cbind(rep(1, 20), rep(c(0, 1), each = 10))
+set.seed(23852577)
+error &lt;- matrix(rnorm(20 * length(beta1), 0, 1), ncol = 20)
+y &lt;- t(X[, 1]) %x% beta0 + t(X[, 2]) %x% beta1 + error
+
+## Perform bumphunting
+tab &lt;- bumphunter(y, X, chr, pos, cl, cutoff=.5)</code></pre>
+<pre><code>## [bumphunterEngine] Using a single core (backend: doSEQ, version: 1.4.2).
+## [bumphunterEngine] Computing coefficients.
+## [bumphunterEngine] Finding regions.
+## [bumphunterEngine] Found 15 bumps.</code></pre>
+<pre class="r"><code>## Explore data
+lapply(tab, head)</code></pre>
+<pre><code>## $table
+##     chr start  end      value       area cluster indexStart indexEnd  L
+## 10 chr1  2316 2631 -1.5814747 15.8147473       2         39       48 10
+## 7  chr2   451  551  1.5891293  4.7673878       3         68       70  3
+## 2  chr1   456  526  1.0678828  3.2036485       1         14       16  3
+## 5  chr1  2176 2211  0.7841794  1.5683589       2         35       36  2
+## 6  chr1  2841 2841  1.2010184  1.2010184       2         54       54  1
+## 4  chr1   771  771  0.7780902  0.7780902       1         23       23  1
+##    clusterL
+## 10       29
+## 7        20
+## 2        29
+## 5        29
+## 6        29
+## 4        29
+## 
+## $coef
+##             [,1]
+## [1,]  0.60960932
+## [2,] -0.09052769
+## [3,] -0.21482638
+## [4,]  0.13053755
+## [5,] -0.21723642
+## [6,]  0.39934961
+## 
+## $fitted
+##             [,1]
+## [1,]  0.60960932
+## [2,] -0.09052769
+## [3,] -0.21482638
+## [4,]  0.13053755
+## [5,] -0.21723642
+## [6,]  0.39934961
+## 
+## $pvaluesMarginal
+## [1] NA</code></pre>
+<p>Once we have the regions we can proceed to build the required <code>GRanges</code> object.</p>
+<pre class="r"><code>library('GenomicRanges')
+
+## Build GRanges with sequence lengths
+regions &lt;- GRanges(seqnames = tab$table$chr, 
+    IRanges(start = tab$table$start, end = tab$table$end),
+    strand = '*', value = tab$table$value, area = tab$table$area, 
+    cluster = tab$table$cluster, L = tab$table$L, clusterL = tab$table$clusterL)
+
+## Assign chr lengths
 data(hg19Ideogram, package = 'biovizBase')
 seqlengths(regions) &lt;- seqlengths(hg19Ideogram)[names(seqlengths(regions))]
 
-## Check new length
-seqlengths(regions)</code></pre>
-<pre><code>##    chr18 
-## 78077248</code></pre>
-<p>The <a href="http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf">DiffBind vignette</a> illustrates functions for creating MA and PCA plots using results from this package. Since these are custom plots for this analysis, we can include them in our report by writing a short child <a href="http://rmarkdown.rstudio.com/">R Markdown</a> file: <a href="/regionReportSupp/DiffBind_custom.Rmd">DiffBind_custom.Rmd</a>.</p>
-<p><code>renderReport()</code> relies on the output from <code>bumphunter::matchGenes()</code>, which can take a considerable amount to compute. So you might want to run this before using <code>renderReport()</code> and save the information just in case you need it.</p>
-<pre class="r"><code>library('TxDb.Hsapiens.UCSC.hg19.knownGene')</code></pre>
-<pre><code>## Loading required package: GenomicFeatures
-## Loading required package: AnnotationDbi
-## Loading required package: Biobase
-## Welcome to Bioconductor
-## 
-##     Vignettes contain introductory material; view with
-##     'browseVignettes()'. To cite Bioconductor, see
-##     'citation(&quot;Biobase&quot;)', and for packages 'citation(&quot;pkgname&quot;)'.
-## 
-## 
-## Attaching package: 'AnnotationDbi'
-## 
-## The following object is masked from 'package:GenomeInfoDb':
-## 
-##     species</code></pre>
-<pre class="r"><code>library('bumphunter')</code></pre>
-<pre><code>## Loading required package: foreach
-## Loading required package: iterators</code></pre>
-<pre class="r"><code>txdb &lt;- TxDb.Hsapiens.UCSC.hg19.knownGene
-genes &lt;- annotateTranscripts(txdb = txdb)</code></pre>
-<pre><code>## No annotationPackage supplied. Trying org.Hs.eg.db.
-## Loading required package: org.Hs.eg.db
-## 
-## Getting TSS and TSE.
-## Getting CSS and CSE.
-## Getting exons.
-## Annotating genes.</code></pre>
-<pre class="r"><code>system.time( annotation &lt;- matchGenes(x = regions, subject = genes) )</code></pre>
-<pre><code>## .................</code></pre>
-<pre><code>##    user  system elapsed 
-## 239.341   0.793 242.843</code></pre>
-<pre class="r"><code>## Save for future use
-save(annotation, file = 'annotation-DiffBind.Rdata')</code></pre>
-<p>Now that we have identified a set of differentially bounded regions, annotated them and written a file with custom code, we can proceed to creating the HTML report.</p>
+## Explore the regions
+regions</code></pre>
+<pre><code>## GRanges object with 15 ranges and 5 metadata columns:
+##        seqnames       ranges strand   |              value
+##           &lt;Rle&gt;    &lt;IRanges&gt;  &lt;Rle&gt;   |          &lt;numeric&gt;
+##    [1]     chr1 [2316, 2631]      *   |  -1.58147472668612
+##    [2]     chr2 [ 451,  551]      *   |   1.58912926544627
+##    [3]     chr1 [ 456,  526]      *   |   1.06788283103948
+##    [4]     chr1 [2176, 2211]      *   |  0.784179442360784
+##    [5]     chr1 [2841, 2841]      *   |   1.20101842543356
+##    ...      ...          ...    ... ...                ...
+##   [11]     chr1 [ 631,  631]      *   |  0.618602646982714
+##   [12]     chr1 [   1,    1]      *   |  0.609609318450113
+##   [13]     chr1 [2911, 2911]      *   | -0.576423040796044
+##   [14]     chr2 [ 251,  251]      *   | -0.556159535339166
+##   [15]     chr1 [2806, 2806]      *   | -0.521605772372843
+##                     area   cluster         L  clusterL
+##                &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt; &lt;integer&gt;
+##    [1]  15.8147472668612         2        10        29
+##    [2]  4.76738779633882         3         3        20
+##    [3]  3.20364849311844         1         3        29
+##    [4]  1.56835888472157         2         2        29
+##    [5]  1.20101842543356         2         1        29
+##    ...               ...       ...       ...       ...
+##   [11] 0.618602646982714         1         1        29
+##   [12] 0.609609318450113         1         1        29
+##   [13] 0.576423040796044         2         1        29
+##   [14] 0.556159535339166         3         1        20
+##   [15] 0.521605772372843         2         1        29
+##   -------
+##   seqinfo: 2 sequences from an unspecified genome</code></pre>
+<p>Now that we have identified a set of differentially methylated regions we can proceed to creating the HTML report. Note that this report has less information than the <a href="/regionReportSupp/DiffBind.html">DiffBind case</a> because we don’t have a p-value variable.</p>
 <pre class="r"><code>## Load regionReport
 library('regionReport')</code></pre>
 <pre><code>## Warning: multiple methods tables found for 'score'</code></pre>
 <pre><code>## No methods found in &quot;GenomicRanges&quot; for requests: rowData</code></pre>
 <pre class="r"><code>## The output will be saved in the 'DiffBind-example' directory
-dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)
+dir.create('bumphunter-example', showWarnings = FALSE, recursive = TRUE)
 
-report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
-    'Q-values' = 'FDR', 'P-values' = 'p.value'), densityVars = c(
-    'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
-    'Concentration (resistant)' = 'Conc_Resistant', 
-    'Concentration (responsive)' = 'Conc_Responsive'), 
-    significantVar = regions$FDR &lt; 0.1, nBestRegions = 100,
-    outdir = 'DiffBind-example', output = 'index',
-    customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
-    annotation = annotation)</code></pre>
+report &lt;- renderReport(regions, 'Example bumphunter', pvalueVars = NULL,
+    densityVars = c('Area' = 'area', 'Value' = 'value',
+    'Cluster Length' = 'clusterL'), significantVar = NULL,
+    outdir = 'bumphunter-example', output = 'index')</code></pre>
 <pre><code>## Warning in citation(&quot;knitcitations&quot;): no date field in DESCRIPTION file of
 ## package 'knitcitations'</code></pre>
 <pre><code>## Writing 11 Bibtex entries ... OK
-## Results written to file 'DiffBind-example/references.bib'
+## Results written to file 'bumphunter-example/references.bib'
 ## 
 ## 
 ## processing file: index.Rmd</code></pre>
@@ -255,8 +251,9 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ## List of 3
 ##  $ echo   : logi FALSE
 ##  $ results: chr &quot;asis&quot;
-##  $ eval   : symbol hasPvalueVars</code></pre>
-<pre><code>## 
+##  $ eval   : symbol hasPvalueVars
+## 
+## 
   |                                                                       
   |........                                                         |  13%
 ##   ordinary text without R code
@@ -270,8 +267,9 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ##  $ fig.height: num 14
 ##  $ dev       : symbol device
 ##  $ eval      : symbol hasSignificant
-##  $ echo      : symbol hasSignificant</code></pre>
-<pre><code>## 
+##  $ echo      : symbol hasSignificant
+## 
+## 
   |                                                                       
   |............                                                     |  18%
 ##   ordinary text without R code
@@ -285,9 +283,8 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ##  $ fig.height: num 10
 ##  $ dev       : symbol device
 ##  $ eval      : language !hasSignificant
-##  $ echo      : language !hasSignificant
-## 
-## 
+##  $ echo      : language !hasSignificant</code></pre>
+<pre><code>## 
   |                                                                       
   |...............                                                  |  23%
 ##    inline R code fragments
@@ -316,10 +313,9 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ##  $ dev       : symbol device
 ##  $ dpi       : num 300
 ##  $ eval      : symbol hasSignificant
-##  $ echo      : symbol hasSignificant</code></pre>
-<pre><code>## Scale for 'x' is already present. Adding another scale for 'x', which will replace the existing scale.
-## Scale for 'x' is already present. Adding another scale for 'x', which will replace the existing scale.</code></pre>
-<pre><code>## 
+##  $ echo      : symbol hasSignificant
+## 
+## 
   |                                                                       
   |......................                                           |  33%
 ##    inline R code fragments
@@ -334,7 +330,15 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ##  $ fig.height: num 9
 ##  $ dev       : symbol device
 ##  $ dpi       : num 300</code></pre>
-<pre><code>## Scale for 'x' is already present. Adding another scale for 'x', which will replace the existing scale.</code></pre>
+<pre><code>## No annotationPackage supplied. Trying org.Hs.eg.db.
+## Loading required package: org.Hs.eg.db
+## Loading required package: DBI
+## 
+## Getting TSS and TSE.
+## Getting CSS and CSE.
+## Getting exons.
+## Annotating genes.
+## Scale for 'x' is already present. Adding another scale for 'x', which will replace the existing scale.</code></pre>
 <pre><code>## 
   |                                                                       
   |.........................                                        |  38%
@@ -363,9 +367,9 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ##  $ dev       : symbol device
 ##  $ dpi       : num 300
 ##  $ eval      : symbol hasSignificant
-##  $ echo      : symbol hasSignificant</code></pre>
-<pre><code>## Scale for 'x' is already present. Adding another scale for 'x', which will replace the existing scale.</code></pre>
-<pre><code>## 
+##  $ echo      : symbol hasSignificant
+## 
+## 
   |                                                                       
   |................................                                 |  49%
 ##    inline R code fragments
@@ -428,44 +432,7 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 ## label: unnamed-chunk-1 (with options) 
 ## List of 2
 ##  $ child: symbol customCode
-##  $ eval : symbol hasCustomCode</code></pre>
-<pre><code>## 
-## 
-## processing file: /Users/lcollado/Dropbox/JHSPH/Code/regionReportSupp/DiffBind_custom.Rmd</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |.........                                                        |  14%
-##   ordinary text without R code
-## 
-## 
-  |                                                                       
-  |...................                                              |  29%
-## label: maplot</code></pre>
-<pre><code>## 
-  |                                                                       
-  |............................                                     |  43%
-##   ordinary text without R code
-## 
-## 
-  |                                                                       
-  |.....................................                            |  57%
-## label: pca</code></pre>
-<pre><code>## 
-  |                                                                       
-  |..............................................                   |  71%
-##   ordinary text without R code
-## 
-## 
-  |                                                                       
-  |........................................................         |  86%
-## label: pca-db</code></pre>
-<pre><code>## 
-  |                                                                       
-  |.................................................................| 100%
-##   ordinary text without R code
-## 
+##  $ eval : symbol hasCustomCode
 ## 
 ## 
   |                                                                       
@@ -534,20 +501,20 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
   |.................................................................| 100%
 ##   ordinary text without R code</code></pre>
 <pre><code>## output file: index.knit.md</code></pre>
-<pre><code>## /usr/local/bin/pandoc index.utf8.md --to html --from markdown-hard_line_breaks+superscript+tex_math_dollars+raw_html+markdown_in_html_blocks-implicit_figures --output index.html -H /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmpbUqWX8/knitr_bootstrap_full.html</code></pre>
+<pre><code>## /usr/local/bin/pandoc index.utf8.md --to html --from markdown-hard_line_breaks+superscript+tex_math_dollars+raw_html+markdown_in_html_blocks-implicit_figures --output index.html -H /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmpaMylFH/knitr_bootstrap_full.html</code></pre>
 <pre><code>## 
 ## Output created: index.html</code></pre>
-<p>You can view the final report at <a href="/regionReportSupp/DiffBind-example/index.html">DiffBind-example</a>.</p>
+<p>You can view the final report at <a href="/regionReportSupp/bumphunter-example/index.html">bumphunter-example</a>.</p>
 </div>
 <div id="reproducibility" class="section level1">
 <h1>Reproducibility</h1>
 <pre class="r"><code>## Date generated:
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2015-03-14 01:20:41 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2015-03-14 01:11:56 EDT&quot;</code></pre>
 <pre class="r"><code>## Time spent making this page:
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-## 377.161   4.013 386.979</code></pre>
+## 127.556   2.912 130.839</code></pre>
 <pre class="r"><code>## R and packages info:
 options(width = 120)
 devtools::session_info()</code></pre>
@@ -562,28 +529,18 @@ devtools::session_info()</code></pre>
 <pre><code>## Packages---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package                           * version  date       source                                    
 ##  acepack                             1.3.3.3  2013-05-03 CRAN (R 3.2.0)                            
-##  amap                                0.8.14   2014-12-17 CRAN (R 3.2.0)                            
-##  annotate                            1.45.2   2015-03-01 Bioconductor                              
 ##  AnnotationDbi                     * 1.29.17  2015-01-21 Bioconductor                              
-##  AnnotationForge                     1.9.7    2015-03-07 Bioconductor                              
-##  base64enc                           0.1.2    2014-06-26 CRAN (R 3.2.0)                            
-##  BatchJobs                           1.5      2014-10-30 CRAN (R 3.2.0)                            
-##  BBmisc                              1.9      2015-02-03 CRAN (R 3.2.0)                            
 ##  bibtex                              0.4.0    2014-12-31 CRAN (R 3.2.0)                            
 ##  Biobase                           * 2.27.2   2015-02-28 Bioconductor                              
 ##  BiocGenerics                      * 0.13.6   2015-03-01 Bioconductor                              
 ##  BiocParallel                        1.1.14   2015-03-12 Bioconductor                              
 ##  biomaRt                             2.23.5   2014-11-22 Bioconductor                              
-##  Biostrings                        * 2.35.11  2015-02-22 Bioconductor                              
+##  Biostrings                          2.35.11  2015-02-22 Bioconductor                              
 ##  biovizBase                          1.15.2   2015-01-14 Bioconductor                              
 ##  bitops                              1.0.6    2013-08-17 CRAN (R 3.2.0)                            
-##  brew                                1.0.6    2011-04-13 CRAN (R 3.2.0)                            
 ##  BSgenome                            1.35.17  2015-02-13 Bioconductor                              
 ##  bumphunter                        * 1.7.6    2015-03-13 Github (lcolladotor/bumphunter@37d10e7)   
 ##  Cairo                               1.5.6    2014-06-26 CRAN (R 3.2.0)                            
-##  Category                            2.33.0   2014-10-14 Bioconductor                              
-##  caTools                             1.17.1   2014-09-10 CRAN (R 3.2.0)                            
-##  checkmate                           1.5.0    2014-10-19 CRAN (R 3.2.0)                            
 ##  cluster                             2.0.1    2015-01-31 CRAN (R 3.2.0)                            
 ##  codetools                           0.2.11   2015-03-10 CRAN (R 3.2.0)                            
 ##  colorspace                          1.2.6    2015-03-11 CRAN (R 3.2.0)                            
@@ -593,43 +550,31 @@ devtools::session_info()</code></pre>
 ##  derfinderPlot                     * 1.1.6    2015-03-14 Github (lcolladotor/derfinderPlot@1319754)
 ##  devtools                            1.6.1    2014-10-07 CRAN (R 3.2.0)                            
 ##  dichromat                           2.0.0    2013-01-24 CRAN (R 3.2.0)                            
-##  DiffBind                          * 1.13.8   2015-02-28 Bioconductor                              
 ##  digest                              0.6.8    2014-12-31 CRAN (R 3.2.0)                            
 ##  doRNG                               1.6      2014-03-07 CRAN (R 3.2.0)                            
-##  edgeR                               3.9.13   2015-03-12 Bioconductor                              
 ##  evaluate                            0.5.5    2014-04-29 CRAN (R 3.2.0)                            
-##  fail                                1.2      2013-09-19 CRAN (R 3.2.0)                            
 ##  foreach                           * 1.4.2    2014-04-11 CRAN (R 3.2.0)                            
 ##  foreign                             0.8.63   2015-02-20 CRAN (R 3.2.0)                            
 ##  formatR                             1.0      2014-08-25 CRAN (R 3.2.0)                            
 ##  Formula                             1.2.0    2015-01-20 CRAN (R 3.2.0)                            
 ##  futile.logger                       1.3.7    2014-01-25 CRAN (R 3.2.0)                            
 ##  futile.options                      1.0.0    2010-04-06 CRAN (R 3.2.0)                            
-##  gdata                               2.13.3   2014-04-06 CRAN (R 3.2.0)                            
-##  genefilter                          1.49.2   2014-10-21 Bioconductor                              
 ##  GenomeInfoDb                      * 1.3.13   2015-02-13 Bioconductor                              
-##  GenomicAlignments                 * 1.3.30   2015-03-04 Bioconductor                              
+##  GenomicAlignments                   1.3.30   2015-03-04 Bioconductor                              
 ##  GenomicFeatures                   * 1.19.27  2015-03-12 Bioconductor                              
 ##  GenomicFiles                        1.3.14   2015-03-07 Bioconductor                              
 ##  GenomicRanges                     * 1.19.46  2015-03-12 Bioconductor                              
 ##  GGally                              0.4.8    2014-08-26 CRAN (R 3.2.0)                            
 ##  ggbio                               1.15.1   2015-01-14 Bioconductor                              
 ##  ggplot2                           * 1.0.0    2014-05-21 CRAN (R 3.2.0)                            
-##  GO.db                               3.1.0    2015-03-14 Bioconductor                              
-##  GOstats                             2.33.0   2014-10-14 Bioconductor                              
-##  gplots                              2.16.0   2015-01-07 CRAN (R 3.2.0)                            
 ##  graph                               1.45.2   2015-03-01 Bioconductor                              
 ##  gridExtra                         * 0.9.1    2012-08-09 CRAN (R 3.2.0)                            
-##  GSEABase                            1.29.1   2015-02-28 Bioconductor                              
 ##  gtable                              0.1.2    2012-12-05 CRAN (R 3.2.0)                            
-##  gtools                              3.4.1    2014-05-28 CRAN (R 3.2.0)                            
 ##  Hmisc                               3.14.5   2014-09-12 CRAN (R 3.2.0)                            
 ##  htmltools                           0.2.6    2014-09-08 CRAN (R 3.2.0)                            
 ##  httr                                0.5      2014-09-02 CRAN (R 3.2.0)                            
-##  hwriter                             1.3.2    2014-09-10 CRAN (R 3.2.0)                            
 ##  IRanges                           * 2.1.43   2015-03-07 Bioconductor                              
 ##  iterators                         * 1.0.7    2014-04-11 CRAN (R 3.2.0)                            
-##  KernSmooth                          2.23.14  2015-02-11 CRAN (R 3.2.0)                            
 ##  knitcitations                       1.0.4    2014-11-03 Github (cboettig/knitcitations@508de74)   
 ##  knitr                             * 1.7      2014-10-13 CRAN (R 3.2.0)                            
 ##  knitrBootstrap                      1.0.0    2014-11-03 Github (jimhester/knitrBootstrap@76c41f0) 
@@ -637,7 +582,6 @@ devtools::session_info()</code></pre>
 ##  lambda.r                            1.1.6    2014-01-23 CRAN (R 3.2.0)                            
 ##  lattice                             0.20.30  2015-02-22 CRAN (R 3.2.0)                            
 ##  latticeExtra                        0.6.26   2013-08-15 CRAN (R 3.2.0)                            
-##  limma                             * 3.23.10  2015-03-02 Bioconductor                              
 ##  locfit                            * 1.5.9.1  2013-04-20 CRAN (R 3.2.0)                            
 ##  lubridate                           1.3.3    2013-12-31 CRAN (R 3.2.0)                            
 ##  markdown                            0.7.4    2014-08-24 CRAN (R 3.2.0)                            
@@ -652,7 +596,6 @@ devtools::session_info()</code></pre>
 ##  nnet                                7.3.9    2015-02-11 CRAN (R 3.2.0)                            
 ##  org.Hs.eg.db                      * 3.0.0    2014-09-26 Bioconductor                              
 ##  OrganismDbi                         1.9.13   2015-03-12 Bioconductor                              
-##  pheatmap                            0.7.7    2013-09-19 CRAN (R 3.2.0)                            
 ##  pkgmaker                            0.22     2014-05-14 CRAN (R 3.2.0)                            
 ##  plyr                                1.8.1    2014-02-26 CRAN (R 3.2.0)                            
 ##  proto                               0.3.10   2012-12-22 CRAN (R 3.2.0)                            
@@ -666,22 +609,18 @@ devtools::session_info()</code></pre>
 ##  registry                            0.2      2012-01-24 CRAN (R 3.2.0)                            
 ##  reshape                             0.8.5    2014-04-23 CRAN (R 3.2.0)                            
 ##  reshape2                            1.4.1    2014-12-06 CRAN (R 3.2.0)                            
-##  rjson                               0.2.15   2014-11-03 CRAN (R 3.2.0)                            
 ##  RJSONIO                             1.3.0    2014-07-28 CRAN (R 3.2.0)                            
 ##  rmarkdown                         * 0.3.3    2014-09-17 CRAN (R 3.2.0)                            
 ##  rngtools                            1.2.4    2014-03-06 CRAN (R 3.2.0)                            
 ##  rpart                               4.1.9    2015-02-24 CRAN (R 3.2.0)                            
-##  Rsamtools                         * 1.19.43  2015-03-12 Bioconductor                              
+##  Rsamtools                           1.19.43  2015-03-12 Bioconductor                              
 ##  RSQLite                           * 1.0.0    2014-10-25 CRAN (R 3.2.0)                            
 ##  rstudioapi                          0.1      2014-03-27 CRAN (R 3.2.0)                            
 ##  rtracklayer                         1.27.8   2015-03-02 Bioconductor                              
 ##  S4Vectors                         * 0.5.22   2015-03-06 Bioconductor                              
 ##  scales                              0.2.4    2014-04-22 CRAN (R 3.2.0)                            
-##  sendmailR                           1.2.1    2014-09-21 CRAN (R 3.2.0)                            
-##  ShortRead                           1.25.9   2015-03-08 Bioconductor                              
 ##  stringr                             0.6.2    2012-12-06 CRAN (R 3.2.0)                            
 ##  survival                            2.38.1   2015-02-24 CRAN (R 3.2.0)                            
-##  systemPipeR                         1.1.14   2015-02-09 Bioconductor                              
 ##  TxDb.Hsapiens.UCSC.hg19.knownGene * 3.0.0    2014-09-26 Bioconductor                              
 ##  VariantAnnotation                   1.13.40  2015-03-06 Bioconductor                              
 ##  whisker                           * 0.3.2    2013-04-28 CRAN (R 3.2.0)                            

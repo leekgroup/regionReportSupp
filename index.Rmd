@@ -16,11 +16,12 @@ This is the supplementary website for the `regionReport` paper.
 
 ## `bumphunter` case
 
+An example using [bumphunter](http://bioconductor.org/packages/release/bioc/html/bumphunter.html) is showcased at [bumphunter.html](/regionReportSupp/bumphunter.html). This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using `renderReport()`. The report is a bit simpler than the one in the example of `renderReport()` because there is no p-value variable. The output report from this example is available at [bumphunter-example](/regionReportSupp/bumphunter-example/index.html).
 
 
 ## `DiffBind` case
 
-An example using [DiffBind](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. The output report from this example is available in [DiffBind-example](/regionReportSupp/DiffBind-example/index.html).
+An example using [DiffBind](http://bioconductor.org/packages/release/bioc/html/DiffBind.html) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. The output report from this example is available at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html).
 
 ## `derfinder` cases
 
