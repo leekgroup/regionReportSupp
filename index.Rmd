@@ -10,7 +10,21 @@ output:
 `regionReport` supplementary website
 ====================================
 
-This is the supplementary website for the `regionReport` paper. It contains the reports for three different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)).
+This is the supplementary website for the `regionReport` paper. 
+
+# Example use cases
+
+## `bumphunter` case
+
+
+
+## `DiffBind` case
+
+An example using [DiffBind](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. The output report from this example is available in [DiffBind-example](/regionReportSupp/DiffBind-example/index.html).
+
+## `derfinder` cases
+
+This section uses three different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)).
 
 The three reports can be viewed following these links:
 
@@ -21,3 +35,8 @@ The three reports can be viewed following these links:
 Note that each report is around 40-50 MB in size and can take some time to load.
 
 The code used for generating these reports is available at the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)) supplementary website [derSoftware](http://lcolladotor.github.io/regionReportSupp/).
+
+
+# Misc
+
+[genomicRanges.R](/regionReportSupp/genomicRanges.R) has simple code for determining how many unique packages depend, import or suggest `GenomicRanges`.
