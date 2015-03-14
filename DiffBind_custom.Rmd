@@ -1,0 +1,29 @@
+
+# MA plot
+
+The following is a MA plot of the resistant-responsive contrast.
+
+```{r 'maplot'}
+dba.plotMA(tamoxifen)
+```
+
+# PCA plot
+
+## All
+
+The following graphic is a PCA plot using the affinity data for all sites.
+
+```{r 'pca'}
+dba.plotPCA(tamoxifen, DBA_TISSUE, label = DBA_CONDITION)
+```
+
+## Only DB
+
+The following graphic is a PCA plot only using the differentially bound sites.
+
+```{r 'pca-db'}
+dba.plotPCA(tamoxifen, contrast = 1, th = .05, label = DBA_TISSUE)
+```
+
+
+The MA and PCA plots are further described in the [DiffBind vignette](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf).

@@ -1,0 +1,89 @@
+---
+output:
+  html_document:
+    theme: united
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+`DiffBind` example
+==================
+
+The [DiffBind](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind) package can be used for ChIP-seq analyses where you are interested in identifying differentially bound sites. The [vignette](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf) explains in greater detail the data set we are using in this example.
+
+```{r 'loadDiff'}
+## Load DiffBind
+library('DiffBind')
+
+## Retrieve differentially bounded sites
+data(tamoxifen_analysis)
+regions <- dba.report(tamoxifen, th = 1)
+
+## Explore quickly
+regions
+
+## Note that the chromosome information is missing
+seqlengths(regions)
+
+## Add chromosome length
+data(hg19Ideogram, package = 'biovizBase')
+seqlengths(regions) <- seqlengths(hg19Ideogram)[names(seqlengths(regions))]
+
+## Check new length
+seqlengths(regions)
+```
+
+The [DiffBind vignette](http://bioconductor.org/packages/release/bioc/vignettes/DiffBind/inst/doc/DiffBind.pdf) illustrates functions for creating MA and PCA plots using results from this package. Since these are custom plots for this analysis, we can include them in our report by writing a short child [R Markdown](http://rmarkdown.rstudio.com/) file: [DiffBind_custom.Rmd](/regionReportSupp/DiffBind_custom.Rmd).
+
+`renderReport()` relies on the output from `bumphunter::matchGenes()`, which can take a considerable amount to compute. So you might want to run this before using `renderReport()` and save the information just in case you need it.
+
+```{r 'matchGenes'}
+library('TxDb.Hsapiens.UCSC.hg19.knownGene')
+library('bumphunter')
+txdb <- TxDb.Hsapiens.UCSC.hg19.knownGene
+genes <- annotateTranscripts(txdb = txdb)
+system.time( annotation <- matchGenes(x = regions, subject = genes) )
+
+## Save for future use
+save(annotation, file = 'annotation-DiffBind.Rdata')
+```
+
+
+
+Now that we have identified a set of differentially bounded regions, annotated them and written a file with custom code, we can proceed to creating the HTML report.
+
+```{r 'createReport'}
+## Load regionReport
+library('regionReport')
+
+## The output will be saved in the 'DiffBind-example' directory
+dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)
+
+report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
+    'Q-values' = 'FDR', 'P-values' = 'p.value'), densityVars = c(
+    'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
+    'Concentration (resistant)' = 'Conc_Resistant', 
+    'Concentration (responsive)' = 'Conc_Responsive'), 
+    significantVar = regions$FDR < 0.1, nBestRegions = 100,
+    outdir = 'DiffBind-example', output = 'index',
+    customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
+    annotation = annotation)
+```
+
+You can view the final report at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html).
+
+# Reproducibility
+
+```{r 'reproducibility'}
+## Date generated:
+Sys.time()
+
+## Time spent making this page:
+proc.time()
+
+## R and packages info:
+options(width = 120)
+devtools::session_info()
+```
+
