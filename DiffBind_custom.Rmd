@@ -4,6 +4,7 @@
 The following is a MA plot of the resistant-responsive contrast.
 
 ```{r 'maplot'}
+library('DiffBind')
 dba.plotMA(tamoxifen)
 ```
 
