@@ -1,7 +1,7 @@
 ---
 output:
   html_document:
-    theme: united
+    theme: spacelab
   knitrBootstrap::bootstrap_document:
     theme.chooser: TRUE
     highlight.chooser: TRUE
@@ -16,7 +16,7 @@ This is the supplementary website for the `regionReport` paper.
 
 ## `bumphunter` case
 
-An example using [bumphunter](http://bioconductor.org/packages/release/bioc/html/bumphunter.html) is showcased at [bumphunter.html](/regionReportSupp/bumphunter.html). This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using `renderReport()`. The report is a bit simpler than the one in the example of `renderReport()` because there is no p-value variable. The output report from this example is available at [bumphunter-example](/regionReportSupp/bumphunter-example/index.html).
+An example using [bumphunter](http://bioconductor.org/packages/release/bioc/html/bumphunter.html) is showcased at [bumphunter.html](http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExample.html). This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using `renderReport()`. The report is a bit simpler than the one in the example of `renderReport()` because there is no p-value variable. The output report from this example is available at [bumphunter-example](http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExampleOutput.html).
 
 
 ## `DiffBind` case
@@ -38,6 +38,62 @@ Note that each report is around 40-50 MB in size and can take some time to load.
 The code used for generating these reports is available at the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)) supplementary website [derSoftware](http://lcolladotor.github.io/regionReportSupp/).
 
 
-# Misc
+# Installation
+
+Get R 3.2.x from [CRAN](http://cran.r-project.org/) as well as pandoc 
+1.12.3 or newer from [here](http://johnmacfarlane.net/pandoc/installing.html). Note that at the time of writing this page, some of the functionality of `regionReport` is only available at Bioconductor-devel (BioC version 3.2), which is why you need R 3.2.x.
+
+Once you have the correct version of R, you can install `regionReport` directly from _Bioconductor_ by using:
+
+```{r 'install', eval = FALSE}
+## Install regionReport
+source('http://bioconductor.org/biocLite.R')
+## Verify that you get a message saying (or with newer versions):
+# Bioconductor version 3.2 (BiocInstaller 1.19.6), ?biocLite for help
+## If the message says that you are using Bioconductor version 3.1 try using
+# useDevel()
+biocLite('regionReport')
+```
+
+That command should install all the dependencies for using `regionReport`. This package does suggest a couple other ones, which you might not need to use. If you wish to install them use:
+
+
+```{r 'installSuggested', eval = FALSE}
+## Other suggested packages by regionReport
+source('http://bioconductor.org/biocLite.R')
+biocLite(c('biovizBase', 'Cairo', 'TxDb.Hsapiens.UCSC.hg19.knownGene'))
+```
+
+
+Note that for the latest `knitrBootstrap` templates you will have to use:
+
+```{r 'installKnitrBootstrap', eval = FALSE}
+## Install latest knitrBootstrap from GitHub
+library('devtools')
+install_github('jimhester/knitrBootstrap')
+```
+
+Some of the examples require other packages, in which case you would need to install the following packages.
+
+```{r 'installExamples', eval = FALSE}
+## Bumphunter example
+source("http://bioconductor.org/biocLite.R")
+biocLite(c('bumphunter', 'GenomicRanges', 'biovizBase'))
+
+## DiffBind example
+source("http://bioconductor.org/biocLite.R")
+biocLite(c('DiffBind', 'biovizBase', 'TxDb.Hsapiens.UCSC.hg19.knownGene',
+    'bumphunter'))
+
+## derfinder examples. Should be installed after biocLite('regionReport')
+source("http://bioconductor.org/biocLite.R")
+biocLite('derfinder')
+```
+
+
+
+# Miscellaneous
 
 [genomicRanges.R](/regionReportSupp/genomicRanges.R) has simple code for determining how many unique packages depend, import or suggest `GenomicRanges`.
+
+This page was last updated at `r Sys.time()`.
