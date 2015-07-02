@@ -209,16 +209,155 @@ genes &lt;- annotateTranscripts(txdb = txdb)</code></pre>
 <pre class="r"><code>system.time( annotation &lt;- matchGenes(x = regions, subject = genes) )</code></pre>
 <pre><code>## .................</code></pre>
 <pre><code>##    user  system elapsed 
-## 129.747   0.581 130.583</code></pre>
+## 134.390   0.588 135.698</code></pre>
 <pre class="r"><code>## Save for future use
 save(annotation, file = 'annotation-DiffBind.Rdata')</code></pre>
-<p>Now that we have identified a set of differentially bounded regions, annotated them and written a file with custom code, we can proceed to creating the HTML report.</p>
+<p><code>renderReport()</code> allows you to change templates for the distribution plots. By default these are density plots, but lets say that you prefer plotting histograms. Density plots can be useful when you have regions from many chromosomes, but in this case there’s only data for chromosome 18. First, lets explore the default templates.</p>
 <pre class="r"><code>## Load regionReport
 library('regionReport')</code></pre>
 <pre><code>## Warning: replacing previous import by 'scales::alpha' when loading 'Hmisc'</code></pre>
+<pre class="r"><code>cat(templateDensity)</code></pre>
+<pre><code>## 
+## ## {{{densityVarName}}}
+## 
+## ```{r density-{{{varName}}}, fig.width=14, fig.height=14, dev=device, eval=hasSignificant, echo=hasSignificant}
+## xrange &lt;- range(regions.df.plot[, '{{{varName}}}'])
+## p3a{{{varName}}} &lt;- ggplot(regions.df.plot[is.finite(regions.df.plot[, '{{{varName}}}']), ], aes(x={{{varName}}}, colour=seqnames)) +
+##     geom_line(stat='density') + labs(title='Density of {{{densityVarName}}}') +
+##     xlab('{{{densityVarName}}}') + scale_colour_discrete(limits=chrs) +
+##     xlim(xrange) + theme(legend.title=element_blank())
+## p3b{{{varName}}} &lt;- ggplot(regions.df.sig[is.finite(regions.df.sig[, '{{{varName}}}']), ], aes(x={{{varName}}}, colour=seqnames)) +
+##     geom_line(stat='density') +
+##     labs(title='Density of {{{densityVarName}}} (significant only)') +
+##     xlab('{{{densityVarName}}}') + scale_colour_discrete(limits=chrs) +
+##     xlim(xrange) + theme(legend.title=element_blank())
+## grid.arrange(p3a{{{varName}}}, p3b{{{varName}}})
+## ```
+## 
+## ```{r density-solo-{{{varName}}}, fig.width=10, fig.height=10, dev=device, eval=!hasSignificant, echo=!hasSignificant}
+## p3a{{{varName}}} &lt;- ggplot(regions.df.plot[is.finite(regions.df.plot[, '{{{varName}}}']), ], aes(x={{{varName}}}, colour=seqnames)) +
+##     geom_line(stat='density') + labs(title='Density of {{{densityVarName}}}') +
+##     xlab('{{{densityVarName}}}') + scale_colour_discrete(limits=chrs) +
+##     theme(legend.title=element_blank())
+## p3a{{{varName}}}
+## ```
+## 
+## This plot shows the density of the {{{densityVarName}}} for all regions. `r ifelse(hasSignificant, 'The bottom panel is restricted to significant regions.', '')`</code></pre>
+<pre class="r"><code>cat(templatePvalueDensity)</code></pre>
+<pre><code>## 
+## ## {{{densityVarName}}}
+## 
+## ```{r density-{{{varName}}}, fig.width=10, fig.height=10, dev=device}
+## p1{{{varName}}} &lt;- ggplot(regions.df.plot, aes(x={{{varName}}}, colour=seqnames)) +
+##     geom_line(stat='density') + xlim(0, 1) +
+##     labs(title='Density of {{{densityVarName}}}') + xlab('{{{densityVarName}}}') +
+##     scale_colour_discrete(limits=chrs) + theme(legend.title=element_blank())
+## p1{{{varName}}}
+## ```
+## 
+## 
+## ```{r 'summary-{{{varName}}}'}
+## summary(mcols(regions)[['{{{varName}}}']])
+## ```
+## 
+## 
+## This is the numerical summary of the distribution of the {{{densityVarName}}}.
+## 
+## ```{r tableSummary-{{{varName}}}, results='asis'}
+## {{{varName}}}table &lt;- lapply(c(1e-04, 0.001, 0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5,
+##     0.6, 0.7, 0.8, 0.9, 1), function(x) {
+##     data.frame('Cut' = x, 'Count' = sum(mcols(regions)[['{{{varName}}}']] &lt;= x))
+## })
+## {{{varName}}}table &lt;- do.call(rbind, {{{varName}}}table)
+## if(outputIsHTML) {
+##     kable({{{varName}}}table, format = 'html', align = c('c', 'c'))
+## } else {
+##     kable({{{varName}}}table)
+## }
+## ```
+## 
+## This table shows the number of regions with {{{densityVarName}}} less or equal than some commonly used cutoff values.</code></pre>
+<p>Next, lets write our own templates. If you are unfamiliar with ggplot2, check <a href="http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/">Plotting distributions (ggplot2)</a>.</p>
+<pre class="r"><code>## Read templates written elsewhere. Otherwise knitr has problems.
+source('templatesHist.R')
+
+## Lets check the new templates
+cat(templateHistogram)</code></pre>
+<pre><code>## 
+## 
+## ## {{{densityVarName}}}
+## 
+## ```{r histogram-{{{varName}}}, fig.width=14, fig.height=14, dev=device, eval=hasSignificant, echo=hasSignificant}
+## xrange &lt;- range(regions.df.plot[, '{{{varName}}}'])
+## p3a{{{varName}}} &lt;- ggplot(regions.df.plot[is.finite(regions.df.plot[, '{{{varName}}}']), ], aes(x={{{varName}}}, fill=seqnames)) +
+##     geom_histogram(alpha=.5, position='identity') +
+##     labs(title='Histogram of {{{densityVarName}}}') +
+##     xlab('{{{densityVarName}}}') +
+##     xlim(xrange) + theme(legend.title=element_blank())
+## p3b{{{varName}}} &lt;- ggplot(regions.df.sig[is.finite(regions.df.sig[, '{{{varName}}}']), ], aes(x={{{varName}}}, fill=seqnames)) +
+##     geom_histogram(alpha=.5, position='identity') +
+##     labs(title='Histogram of {{{densityVarName}}} (significant only)') +
+##     xlab('{{{densityVarName}}}') +
+##     xlim(xrange) + theme(legend.title=element_blank())
+## grid.arrange(p3a{{{varName}}}, p3b{{{varName}}})
+## ```
+## 
+## ```{r histogram-solo-{{{varName}}}, fig.width=10, fig.height=10, dev=device, eval=!hasSignificant, echo=!hasSignificant}
+## p3a{{{varName}}} &lt;- ggplot(regions.df.plot[is.finite(regions.df.plot[, '{{{varName}}}']), ], aes(x={{{varName}}}, fill=seqnames)) +
+##     geom_histogram(alpha=.5, position='identity') +
+##     labs(title='Histogram of {{{densityVarName}}}') +
+##     xlab('{{{densityVarName}}}') +
+##     theme(legend.title=element_blank())
+## p3a{{{varName}}}
+## ```
+## 
+## This plot shows the histogram of the {{{densityVarName}}} for all regions. `r ifelse(hasSignificant, 'The bottom panel is restricted to significant regions.', '')`</code></pre>
+<pre class="r"><code>cat(templatePvalueHistogram)</code></pre>
+<pre><code>## 
+## ## {{{densityVarName}}}
+## 
+## ```{r histPval-{{{varName}}}, fig.width=10, fig.height=10, dev=device}
+## p1{{{varName}}} &lt;- ggplot(regions.df.plot, aes(x={{{varName}}}, colour=seqnames)) +
+##     geom_histogram(binwidth=.05, alpha=.5, position='identity') + xlim(0, 1) +
+##     labs(title='Histogram of {{{densityVarName}}}') + 
+##     xlab('{{{densityVarName}}}') +
+##     scale_colour_discrete(limits=chrs) + theme(legend.title=element_blank())
+## p1{{{varName}}}
+## ```
+## 
+## 
+## ```{r 'summary-{{{varName}}}'}
+## summary(mcols(regions)[['{{{varName}}}']])
+## ```
+## 
+## 
+## This is the numerical summary of the distribution of the {{{densityVarName}}}.
+## 
+## ```{r tableSummary-{{{varName}}}, results='asis'}
+## {{{varName}}}table &lt;- lapply(c(1e-04, 0.001, 0.01, 0.025, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5,
+##     0.6, 0.7, 0.8, 0.9, 1), function(x) {
+##     data.frame('Cut' = x, 'Count' = sum(mcols(regions)[['{{{varName}}}']] &lt;= x))
+## })
+## {{{varName}}}table &lt;- do.call(rbind, {{{varName}}}table)
+## if(outputIsHTML) {
+##     kable({{{varName}}}table, format = 'html', align = c('c', 'c'))
+## } else {
+##     kable({{{varName}}}table)
+## }
+## ```
+## 
+## This table shows the number of regions with {{{densityVarName}}} less or equal than some commonly used cutoff values.</code></pre>
+<pre class="r"><code>## Define our list of templates
+densityTemplates &lt;- list(
+    Pvalue = templatePvalueHistogram, 
+    Common = templateHistogram, 
+    Manhattan = templateManhattan
+)</code></pre>
+<p>Now that we have identified a set of differentially bounded regions, annotated them, written a file with custom code, and changed the distribution plot templates we can proceed to creating the HTML report.</p>
 <pre class="r"><code>## The output will be saved in the 'DiffBind-example' directory
 dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)</code></pre>
-<pre class="r"><code>report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
+<pre class="r"><code>## Create the report
+report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
     'Q-values' = 'FDR', 'P-values' = 'p.value'), densityVars = c(
     'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
     'Concentration (resistant)' = 'Conc_Resistant', 
@@ -226,7 +365,7 @@ dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)</code></p
     significantVar = regions$FDR &lt; 0.1, nBestRegions = 100,
     outdir = 'DiffBind-example', output = 'index',
     customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
-    annotation = annotation)</code></pre>
+    annotation = annotation, densityTemplates = densityTemplates)</code></pre>
 <pre><code>## '/Library/Frameworks/R.framework/Resources/bin/R' --no-site-file  \
 ##   --no-environ --no-save --no-restore --quiet  \
 ##   --file='diffbindReport-isolated.R' --slave</code></pre>
@@ -236,11 +375,11 @@ dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)</code></p
 <h1>Reproducibility</h1>
 <pre class="r"><code>## Date generated:
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2015-07-01 20:01:25 CEST&quot;</code></pre>
+<pre><code>## [1] &quot;2015-07-02 14:01:12 CEST&quot;</code></pre>
 <pre class="r"><code>## Time spent making this page:
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-## 256.723   4.505 263.545</code></pre>
+## 263.736   4.584 270.493</code></pre>
 <pre class="r"><code>## R and packages info:
 options(width = 120)
 devtools::session_info()</code></pre>

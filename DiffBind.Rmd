@@ -49,19 +49,45 @@ system.time( annotation <- matchGenes(x = regions, subject = genes) )
 save(annotation, file = 'annotation-DiffBind.Rdata')
 ```
 
+`renderReport()` allows you to change templates for the distribution plots. By default these are density plots, but lets say that you prefer plotting histograms. Density plots can be useful when you have regions from many chromosomes, but in this case there's only data for chromosome 18. First, lets explore the default templates.
 
-
-Now that we have identified a set of differentially bounded regions, annotated them and written a file with custom code, we can proceed to creating the HTML report.
-
-```{r 'loadLib'}
+```{r 'defaultTemplates'}
 ## Load regionReport
 library('regionReport')
+cat(templateDensity)
+cat(templatePvalueDensity)
+```
 
+Next, lets write our own templates. If you are unfamiliar with ggplot2, check [Plotting distributions (ggplot2)](http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/).
+
+```{r 'newTemplates'}
+## Read templates written elsewhere. Otherwise knitr has problems.
+source('templatesHist.R')
+
+## Lets check the new templates
+cat(templateHistogram)
+cat(templatePvalueHistogram)
+
+## Define our list of templates
+densityTemplates <- list(
+    Pvalue = templatePvalueHistogram, 
+    Common = templateHistogram, 
+    Manhattan = templateManhattan
+)
+```
+
+
+
+
+Now that we have identified a set of differentially bounded regions, annotated them, written a file with custom code, and changed the distribution plot templates we can proceed to creating the HTML report.
+
+```{r 'createOutputDir'}
 ## The output will be saved in the 'DiffBind-example' directory
 dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)
 ```
 
 ```{r 'createReport', eval = FALSE}
+## Create the report
 report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
     'Q-values' = 'FDR', 'P-values' = 'p.value'), densityVars = c(
     'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
@@ -70,11 +96,11 @@ report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
     significantVar = regions$FDR < 0.1, nBestRegions = 100,
     outdir = 'DiffBind-example', output = 'index',
     customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
-    annotation = annotation)
+    annotation = annotation, densityTemplates = densityTemplates)
 ```
 
 ```{r 'createReportReal', echo = FALSE, results = 'hide'}
-save(regions, annotation, file = 'regionsTemp.Rdata')
+save(regions, annotation, densityTemplates, file = 'regionsTemp.Rdata')
 ## Generate the HTML report in a clean environment
 library('devtools')
 
@@ -96,7 +122,7 @@ report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
     significantVar = regions$FDR < 0.1, nBestRegions = 100,
     outdir = 'DiffBind-example', output = 'index',
     customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
-    annotation = annotation)
+    annotation = annotation, densityTemplates = densityTemplates)
     
 ## Clean up
 file.remove('regionsTemp.Rdata')
