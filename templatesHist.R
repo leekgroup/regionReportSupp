@@ -1,7 +1,7 @@
 templatePvalueHistogram <- "
 ## {{{densityVarName}}}
 
-```{r histPval-{{{varName}}}, fig.width=10, fig.height=10, dev=device}
+```{r histPval-{{{varName}}}, fig.width=10, fig.height=10, dev=device, warning=FALSE}
 p1{{{varName}}} <- ggplot(regions.df.plot, aes(x={{{varName}}}, colour=seqnames)) +
     geom_histogram(binwidth=.05, alpha=.5, position='identity') + xlim(0, 1) +
     labs(title='Histogram of {{{densityVarName}}}') + 
@@ -25,7 +25,7 @@ This is the numerical summary of the distribution of the {{{densityVarName}}}.
 })
 {{{varName}}}table <- do.call(rbind, {{{varName}}}table)
 if(outputIsHTML) {
-    kable({{{varName}}}table, format = 'html', align = c('c', 'c'))
+    kable({{{varName}}}table, format = 'markdown', align = c('c', 'c'))
 } else {
     kable({{{varName}}}table)
 }
@@ -39,7 +39,7 @@ templateHistogram <- "
 
 ## {{{densityVarName}}}
 
-```{r histogram-{{{varName}}}, fig.width=14, fig.height=14, dev=device, eval=hasSignificant, echo=hasSignificant}
+```{r histogram-{{{varName}}}, fig.width=14, fig.height=14, dev=device, eval=hasSignificant, echo=hasSignificant, warning = FALSE}
 xrange <- range(regions.df.plot[, '{{{varName}}}'])
 p3a{{{varName}}} <- ggplot(regions.df.plot[is.finite(regions.df.plot[, '{{{varName}}}']), ], aes(x={{{varName}}}, fill=seqnames)) +
     geom_histogram(alpha=.5, position='identity') +
@@ -54,7 +54,7 @@ p3b{{{varName}}} <- ggplot(regions.df.sig[is.finite(regions.df.sig[, '{{{varName
 grid.arrange(p3a{{{varName}}}, p3b{{{varName}}})
 ```
 
-```{r histogram-solo-{{{varName}}}, fig.width=10, fig.height=10, dev=device, eval=!hasSignificant, echo=!hasSignificant}
+```{r histogram-solo-{{{varName}}}, fig.width=10, fig.height=10, dev=device, eval=!hasSignificant, echo=!hasSignificant, warning = FALSE}
 p3a{{{varName}}} <- ggplot(regions.df.plot[is.finite(regions.df.plot[, '{{{varName}}}']), ], aes(x={{{varName}}}, fill=seqnames)) +
     geom_histogram(alpha=.5, position='identity') +
     labs(title='Histogram of {{{densityVarName}}}') +

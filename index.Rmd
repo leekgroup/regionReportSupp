@@ -25,17 +25,16 @@ An example using [DiffBind](http://bioconductor.org/packages/release/bioc/html/D
 
 ## `derfinder` cases
 
-This section uses three different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)).
+This section uses different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)).
 
-The three reports can be viewed following these links:
+The reports can be viewed following these links:
 
 * [brainspan](/regionReportSupp/brainspan/basicExploration.html)
 * [hippo](/regionReportSupp/hippo/basicExploration.html)
-* [simulation](/regionReportSupp/simulation/basicExploration.html)
 
 Note that each report is around 40-50 MB in size and can take some time to load.
 
-The code used for generating these reports is available at the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)) supplementary website [derSoftware](http://lcolladotor.github.io/regionReportSupp/).
+The code used for generating these reports is available at the supplementary websites [derSupplement](http://leekgroup.github.io/derSupplement/) and [derCountSupp](http://leekgroup.github.io/derCountSupp/).
 
 
 # Installation

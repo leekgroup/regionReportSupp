@@ -89,7 +89,7 @@ dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)
 ```{r 'createReport', eval = FALSE}
 ## Create the report
 report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
-    'Q-values' = 'FDR', 'P-values' = 'p.value'), densityVars = c(
+    'Q-values' = 'FDR', 'P-values' = 'p-value'), densityVars = c(
     'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
     'Concentration (resistant)' = 'Conc_Resistant', 
     'Concentration (responsive)' = 'Conc_Responsive'), 
@@ -105,7 +105,7 @@ save(regions, annotation, densityTemplates, file = 'regionsTemp.Rdata')
 library('devtools')
 
 cat("## Generate the report in an isolated environment
-## This helps avoids https://github.com/rstudio/rmarkdown/issues/248
+## This helps avoid https://github.com/rstudio/rmarkdown/issues/248
 
 ## Load library and data
 library(regionReport)
@@ -115,7 +115,7 @@ load('regionsTemp.Rdata')
 
 ## Create report
 report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
-    'Q-values' = 'FDR', 'P-values' = 'p.value'), densityVars = c(
+    'Q-values' = 'FDR', 'P-values' = 'p-value'), densityVars = c(
     'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
     'Concentration (resistant)' = 'Conc_Resistant', 
     'Concentration (responsive)' = 'Conc_Responsive'), 
