@@ -21,7 +21,7 @@ An example using [bumphunter](http://bioconductor.org/packages/release/bioc/html
 
 ## `DiffBind` case
 
-An example using [DiffBind](http://bioconductor.org/packages/release/bioc/html/DiffBind.html) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html).
+An example using [DiffBind](http://bioconductor.org/packages/release/bioc/html/DiffBind.html) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html) and it uses `rmarkdown` as the engine which since version 0.9.5 allows toggling of code.
 
 ## `derfinder` cases
 
@@ -32,7 +32,7 @@ The reports can be viewed following these links:
 * [brainspan](/regionReportSupp/brainspan/basicExploration.html)
 * [hippo](/regionReportSupp/hippo/basicExploration.html)
 
-Note that each report is around 40-50 MB in size and can take some time to load.
+Note that each report is around 40-50 MB in size and can take some time to load. These reports were generated using `knitrBootstrap` as the engine prior to `rmarkdown` v0.9.5.
 
 The code used for generating these reports is available at the supplementary websites [derSupplement](http://leekgroup.github.io/derSupplement/) and [derCountSupp](http://leekgroup.github.io/derCountSupp/).
 

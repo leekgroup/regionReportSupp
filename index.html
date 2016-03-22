@@ -123,18 +123,17 @@ $(document).ready(function () {
 </div>
 <div id="diffbind-case" class="section level2">
 <h2><code>DiffBind</code> case</h2>
-<p>An example using <a href="http://bioconductor.org/packages/release/bioc/html/DiffBind.html">DiffBind</a> is showcased at <a href="/regionReportSupp/DiffBind.html">DiffBind.html</a>. This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using <code>renderReport()</code> with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at <a href="/regionReportSupp/DiffBind-example/index.html">DiffBind-example</a>.</p>
+<p>An example using <a href="http://bioconductor.org/packages/release/bioc/html/DiffBind.html">DiffBind</a> is showcased at <a href="/regionReportSupp/DiffBind.html">DiffBind.html</a>. This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using <code>renderReport()</code> with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at <a href="/regionReportSupp/DiffBind-example/index.html">DiffBind-example</a> and it uses <code>rmarkdown</code> as the engine which since version 0.9.5 allows toggling of code.</p>
 </div>
 <div id="derfinder-cases" class="section level2">
 <h2><code>derfinder</code> cases</h2>
-<p>This section uses three different data sets as described in the <code>derfinder</code> paper (<a href="http://biorxiv.org/content/early/2015/02/19/015370">bioRxiv preprint</a>).</p>
-<p>The three reports can be viewed following these links:</p>
+<p>This section uses different data sets as described in the <code>derfinder</code> paper (<a href="http://biorxiv.org/content/early/2015/02/19/015370">bioRxiv preprint</a>).</p>
+<p>The reports can be viewed following these links:</p>
 <ul>
 <li><a href="/regionReportSupp/brainspan/basicExploration.html">brainspan</a></li>
 <li><a href="/regionReportSupp/hippo/basicExploration.html">hippo</a></li>
-<li><a href="/regionReportSupp/simulation/basicExploration.html">simulation</a></li>
 </ul>
-<p>Note that each report is around 40-50 MB in size and can take some time to load.</p>
+<p>Note that each report is around 40-50 MB in size and can take some time to load. These reports were generated using <code>knitrBootstrap</code> as the engine prior to <code>rmarkdown</code> v0.9.5.</p>
 <p>The code used for generating these reports is available at the supplementary websites <a href="http://leekgroup.github.io/derSupplement/">derSupplement</a> and <a href="http://leekgroup.github.io/derCountSupp/">derCountSupp</a>.</p>
 </div>
 </div>
@@ -174,7 +173,7 @@ biocLite('derfinder')</code></pre>
 <div id="miscellaneous" class="section level1">
 <h1>Miscellaneous</h1>
 <p><a href="/regionReportSupp/genomicRanges.R">genomicRanges.R</a> has simple code for determining how many unique packages depend, import or suggest <code>GenomicRanges</code>.</p>
-<p>This page was last updated at 2016-03-21 17:40:41.</p>
+<p>This page was last updated at 2016-03-21 20:07:13.</p>
 </div>
 
 
