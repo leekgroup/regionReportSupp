@@ -10,18 +10,22 @@ output:
 `regionReport` supplementary website
 ====================================
 
-This is the supplementary website for the `regionReport` paper. 
+This is the supplementary website for the [regionReport](http://bioconductor.org/packages/regionReport) paper available at [F1000Research](http://f1000research.com/articles/4-105/v1). 
 
 # Example use cases
 
+## `DESeq2` case
+
+[regionReport](http://bioconductor.org/packages/regionReport) has a specific template for `DESeq2` results. The file [DESEq2.html](/regionReportSupp/DESeq2.html) shows how to create a HTML and a PDF report using results from `DESeq2`. The resulting HTML report is available at [DESeq2-example](/regionReportSupp/DESeq2-example/index.html) and the PDF version at [DESeq2REport](/regionReportSupp/DESeq2-example/DESEq2Report.pdf).
+
 ## `bumphunter` case
 
-An example using [bumphunter](http://bioconductor.org/packages/release/bioc/html/bumphunter.html) is showcased at [bumphunter.html](http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExample.html). This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using `renderReport()`. The report is a bit simpler than the one in the example of `renderReport()` because there is no p-value variable. The output report from this example is available at [bumphunter-example](http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExampleOutput.html).
+An example using [bumphunter](http://bioconductor.org/packages/bumphunter) is showcased at [bumphunter.html](http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExample.html). This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using `renderReport()`. The report is a bit simpler than the one in the example of `renderReport()` because there is no p-value variable. The output report from this example is available at [bumphunter-example](http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExampleOutput.html).
 
 
 ## `DiffBind` case
 
-An example using [DiffBind](http://bioconductor.org/packages/release/bioc/html/DiffBind.html) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html) and it uses `rmarkdown` as the engine which since version 0.9.5 allows toggling of code.
+An example using [DiffBind](http://bioconductor.org/packages/DiffBind) is showcased at [DiffBind.html](/regionReportSupp/DiffBind.html). This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using `renderReport()` with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html) and it uses `rmarkdown` as the engine which since version 0.9.5 allows toggling of code.
 
 ## `derfinder` cases
 
@@ -75,6 +79,10 @@ install_github('jimhester/knitrBootstrap')
 Some of the examples require other packages, in which case you would need to install the following packages.
 
 ```{r 'installExamples', eval = FALSE}
+## DESeq2 example
+source("http://bioconductor.org/biocLite.R")
+biocLite('pasilla')
+
 ## Bumphunter example
 source("http://bioconductor.org/biocLite.R")
 biocLite(c('bumphunter', 'GenomicRanges', 'biovizBase'))

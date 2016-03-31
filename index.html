@@ -113,17 +113,21 @@ $(document).ready(function () {
 
 <div id="regionreport-supplementary-website" class="section level1">
 <h1><code>regionReport</code> supplementary website</h1>
-<p>This is the supplementary website for the <code>regionReport</code> paper.</p>
+<p>This is the supplementary website for the <a href="http://bioconductor.org/packages/regionReport">regionReport</a> paper available at <a href="http://f1000research.com/articles/4-105/v1">F1000Research</a>.</p>
 </div>
 <div id="example-use-cases" class="section level1">
 <h1>Example use cases</h1>
+<div id="deseq2-case" class="section level2">
+<h2><code>DESeq2</code> case</h2>
+<p><a href="http://bioconductor.org/packages/regionReport">regionReport</a> has a specific template for <code>DESeq2</code> results. The file <a href="/regionReportSupp/DESeq2.html">DESEq2.html</a> shows how to create a HTML and a PDF report using results from <code>DESeq2</code>. The resulting HTML report is available at <a href="/regionReportSupp/DESeq2-example/index.html">DESeq2-example</a> and the PDF version at <a href="/regionReportSupp/DESeq2-example/DESEq2Report.pdf">DESeq2REport</a>.</p>
+</div>
 <div id="bumphunter-case" class="section level2">
 <h2><code>bumphunter</code> case</h2>
-<p>An example using <a href="http://bioconductor.org/packages/release/bioc/html/bumphunter.html">bumphunter</a> is showcased at <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExample.html">bumphunter.html</a>. This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using <code>renderReport()</code>. The report is a bit simpler than the one in the example of <code>renderReport()</code> because there is no p-value variable. The output report from this example is available at <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExampleOutput.html">bumphunter-example</a>.</p>
+<p>An example using <a href="http://bioconductor.org/packages/bumphunter">bumphunter</a> is showcased at <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExample.html">bumphunter.html</a>. This file shows the code for obtaining a set of simulated differentially methylated regions and creating a HTML report using <code>renderReport()</code>. The report is a bit simpler than the one in the example of <code>renderReport()</code> because there is no p-value variable. The output report from this example is available at <a href="http://www.bioconductor.org/packages/devel/bioc/vignettes/regionReport/inst/doc/bumphunterExampleOutput.html">bumphunter-example</a>.</p>
 </div>
 <div id="diffbind-case" class="section level2">
 <h2><code>DiffBind</code> case</h2>
-<p>An example using <a href="http://bioconductor.org/packages/release/bioc/html/DiffBind.html">DiffBind</a> is showcased at <a href="/regionReportSupp/DiffBind.html">DiffBind.html</a>. This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using <code>renderReport()</code> with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at <a href="/regionReportSupp/DiffBind-example/index.html">DiffBind-example</a> and it uses <code>rmarkdown</code> as the engine which since version 0.9.5 allows toggling of code.</p>
+<p>An example using <a href="http://bioconductor.org/packages/DiffBind">DiffBind</a> is showcased at <a href="/regionReportSupp/DiffBind.html">DiffBind.html</a>. This file shows the code for obtaining a set of differentially bounded sites and creating a HTML report using <code>renderReport()</code> with custom code to create a MA plot and two PCA plots. This example also shows how to change the distribution plot templates to use histograms instead of density plots. The output report from this example is available at <a href="/regionReportSupp/DiffBind-example/index.html">DiffBind-example</a> and it uses <code>rmarkdown</code> as the engine which since version 0.9.5 allows toggling of code.</p>
 </div>
 <div id="derfinder-cases" class="section level2">
 <h2><code>derfinder</code> cases</h2>
@@ -157,7 +161,11 @@ biocLite(c('biovizBase', 'Cairo', 'TxDb.Hsapiens.UCSC.hg19.knownGene'))</code></
 library('devtools')
 install_github('jimhester/knitrBootstrap')</code></pre>
 <p>Some of the examples require other packages, in which case you would need to install the following packages.</p>
-<pre class="r"><code>## Bumphunter example
+<pre class="r"><code>## DESeq2 example
+source(&quot;http://bioconductor.org/biocLite.R&quot;)
+biocLite('pasilla')
+
+## Bumphunter example
 source(&quot;http://bioconductor.org/biocLite.R&quot;)
 biocLite(c('bumphunter', 'GenomicRanges', 'biovizBase'))
 
@@ -173,7 +181,7 @@ biocLite('derfinder')</code></pre>
 <div id="miscellaneous" class="section level1">
 <h1>Miscellaneous</h1>
 <p><a href="/regionReportSupp/genomicRanges.R">genomicRanges.R</a> has simple code for determining how many unique packages depend, import or suggest <code>GenomicRanges</code>.</p>
-<p>This page was last updated at 2016-03-21 20:07:13.</p>
+<p>This page was last updated at 2016-03-31 15:11:48.</p>
 </div>
 
 
