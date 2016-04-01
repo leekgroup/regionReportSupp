@@ -148,19 +148,18 @@ $(document).ready(function () {
 </div>
 <div id="installation" class="section level1">
 <h1>Installation</h1>
-<p>Get R 3.2.x from <a href="http://cran.r-project.org/">CRAN</a> as well as pandoc 1.12.3 or newer from <a href="http://johnmacfarlane.net/pandoc/installing.html">here</a>. Note that at the time of writing this page, some of the functionality of <code>regionReport</code> is only available at Bioconductor-devel (BioC version 3.2), which is why you need R 3.2.x.</p>
+<p>Get R 3.2.x from <a href="http://cran.r-project.org/">CRAN</a> as well as pandoc 1.12.3 or newer from <a href="http://johnmacfarlane.net/pandoc/installing.html">here</a>. Note that at the time of writing this page, some of the functionality of <code>regionReport</code> is only available at Bioconductor-devel (BioC version 3.3) for which you’ll need R 3.3.x.</p>
 <p>Once you have the correct version of R, you can install <code>regionReport</code> directly from <em>Bioconductor</em> by using:</p>
 <pre class="r"><code>## Install regionReport
 source('http://bioconductor.org/biocLite.R')
-## Verify that you get a message saying (or with newer versions):
-# Bioconductor version 3.2 (BiocInstaller 1.19.6), ?biocLite for help
-## If the message says that you are using Bioconductor version 3.1 try using
-# useDevel()
 biocLite('regionReport')</code></pre>
 <p>That command should install all the dependencies for using <code>regionReport</code>. This package does suggest a couple other ones, which you might not need to use. If you wish to install them use:</p>
-<pre class="r"><code>## Other suggested packages by regionReport
+<pre class="r"><code>## Here is the full list of suggested packages by regionReport
 source('http://bioconductor.org/biocLite.R')
-biocLite(c('biovizBase', 'Cairo', 'TxDb.Hsapiens.UCSC.hg19.knownGene'))</code></pre>
+biocLite(c('BiocStyle', 'biovizBase', 'bumphunter', 'Cairo', 'derfinderPlot',
+    'devtools', 'DT', 'DESeq', 'ggbio', 'ggplot2', 'grid', 'gridExtra',
+    'IRanges', 'mgcv', 'pasilla', 'pheatmap', 'RColorBrewer',
+    'TxDb.Hsapiens.UCSC.hg19.knownGene', 'whisker'))</code></pre>
 <p>Note that for the latest <code>knitrBootstrap</code> templates you will have to use:</p>
 <pre class="r"><code>## Install latest knitrBootstrap from GitHub
 library('devtools')
@@ -170,7 +169,7 @@ install_github('jimhester/knitrBootstrap')</code></pre>
 source(&quot;http://bioconductor.org/biocLite.R&quot;)
 biocLite('pasilla')
 
-## Bumphunter example
+## Bumphunter example, deps are part of the suggested list of packages
 source(&quot;http://bioconductor.org/biocLite.R&quot;)
 biocLite(c('bumphunter', 'GenomicRanges', 'biovizBase'))
 
@@ -186,7 +185,7 @@ biocLite('derfinder')</code></pre>
 <div id="miscellaneous" class="section level1">
 <h1>Miscellaneous</h1>
 <p><a href="/regionReportSupp/genomicRanges.R">genomicRanges.R</a> has simple code for determining how many unique packages depend, import or suggest <code>GenomicRanges</code>.</p>
-<p>This page was last updated at 2016-04-01 01:32:30.</p>
+<p>This page was last updated at 2016-04-01 09:40:42.</p>
 </div>
 
 

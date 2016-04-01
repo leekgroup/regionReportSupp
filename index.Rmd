@@ -49,17 +49,13 @@ The code used for generating these reports is available at the supplementary web
 # Installation
 
 Get R 3.2.x from [CRAN](http://cran.r-project.org/) as well as pandoc 
-1.12.3 or newer from [here](http://johnmacfarlane.net/pandoc/installing.html). Note that at the time of writing this page, some of the functionality of `regionReport` is only available at Bioconductor-devel (BioC version 3.2), which is why you need R 3.2.x.
+1.12.3 or newer from [here](http://johnmacfarlane.net/pandoc/installing.html). Note that at the time of writing this page, some of the functionality of `regionReport` is only available at Bioconductor-devel (BioC version 3.3) for which you'll need R 3.3.x.
 
 Once you have the correct version of R, you can install `regionReport` directly from _Bioconductor_ by using:
 
 ```{r 'install', eval = FALSE}
 ## Install regionReport
 source('http://bioconductor.org/biocLite.R')
-## Verify that you get a message saying (or with newer versions):
-# Bioconductor version 3.2 (BiocInstaller 1.19.6), ?biocLite for help
-## If the message says that you are using Bioconductor version 3.1 try using
-# useDevel()
 biocLite('regionReport')
 ```
 
@@ -67,9 +63,12 @@ That command should install all the dependencies for using `regionReport`. This 
 
 
 ```{r 'installSuggested', eval = FALSE}
-## Other suggested packages by regionReport
+## Here is the full list of suggested packages by regionReport
 source('http://bioconductor.org/biocLite.R')
-biocLite(c('biovizBase', 'Cairo', 'TxDb.Hsapiens.UCSC.hg19.knownGene'))
+biocLite(c('BiocStyle', 'biovizBase', 'bumphunter', 'Cairo', 'derfinderPlot',
+    'devtools', 'DT', 'DESeq', 'ggbio', 'ggplot2', 'grid', 'gridExtra',
+    'IRanges', 'mgcv', 'pasilla', 'pheatmap', 'RColorBrewer',
+    'TxDb.Hsapiens.UCSC.hg19.knownGene', 'whisker'))
 ```
 
 
@@ -88,7 +87,7 @@ Some of the examples require other packages, in which case you would need to ins
 source("http://bioconductor.org/biocLite.R")
 biocLite('pasilla')
 
-## Bumphunter example
+## Bumphunter example, deps are part of the suggested list of packages
 source("http://bioconductor.org/biocLite.R")
 biocLite(c('bumphunter', 'GenomicRanges', 'biovizBase'))
 
