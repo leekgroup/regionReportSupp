@@ -48,7 +48,7 @@ dir.create('DESeq2-example', showWarnings = FALSE, recursive = TRUE)
 
 Next, we can create the HTML report. In this case we'll change the default theme by using the `theme_bw()` function from the [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) package.
 
-```{r 'createReport', eval = FALSE}
+```{r 'createReport'}
 ## Use ggplot2::theme_bw()
 library('ggplot2')
 
@@ -59,40 +59,6 @@ report <- DESeq2Report(dds, project = 'HTML report',
     output = 'index', theme = theme_bw())
 ```
 
-```{r 'createReportReal', echo = FALSE, results = 'hide'}
-## Generate the HTML report in a clean environment
-library('devtools')
-
-cat("## Generate the report in an isolated environment
-## This helps avoid https://github.com/rstudio/rmarkdown/issues/248
-
-## Load example data from pasilla package
-library('pasilla')
-library('DESeq2')
-
-## Create DESeqDataSet object from the pasilla package
-data('pasillaGenes')
-countData <- counts(pasillaGenes)
-colData <- pData(pasillaGenes)[, c('condition', 'type')]
-
-dds <- DESeqDataSetFromMatrix(countData = countData,
-    colData = colData,
-    design = ~ condition)
-dds <- DESeq(dds)
-
-## Use ggplot2::theme_bw()
-library('ggplot2')
-
-## Create the HTML report
-library('regionReport')
-report <- DESeq2Report(dds, project = 'HTML report',
-    intgroup = c('condition', 'type'), outdir = 'DESeq2-example',
-    output = 'index', theme = theme_bw())
-
-", file = 'DESeq2-report-isolated.R')
-clean_source('DESeq2-report-isolated.R', quiet=TRUE)
-file.remove('DESeq2-report-isolated.R')
-```
 
 You can view the final HTML report at [DESeq2-example](/regionReportSupp/DESeq2-example/index.html).
 
@@ -104,7 +70,7 @@ The HTML report has an interactive table with the top features (in this case gen
 ## Create PDF version of the same report
 report <- DESeq2Report(dds, project = 'PDF report', 
     intgroup = c('condition', 'type'), outdir = 'DESeq2-example',
-    output = 'DESeq2Report', theme = theme_bw(), output_format = 'pdf_document'
+    output = 'DESeq2Report', theme = theme_bw(), output_format = 'pdf_document',
     device = 'pdf')
 ```
 

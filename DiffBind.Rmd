@@ -58,13 +58,10 @@ cat(templateDensity)
 cat(templatePvalueDensity)
 ```
 
-Next, lets write our own templates. If you are unfamiliar with ggplot2, check [Plotting distributions (ggplot2)](http://www.cookbook-r.com/Graphs/Plotting_distributions_(ggplot2)/).
+`regionReport` includes other templates you might want to use such as histogram templates to replace the density plots.
 
 ```{r 'newTemplates'}
-## Read templates written elsewhere. Otherwise knitr has problems.
-source('templatesHist.R')
-
-## Lets check the new templates
+## Lets check the alternative templates
 cat(templateHistogram)
 cat(templatePvalueHistogram)
 
@@ -86,7 +83,7 @@ Now that we have identified a set of differentially bounded regions, annotated t
 dir.create('DiffBind-example', showWarnings = FALSE, recursive = TRUE)
 ```
 
-```{r 'createReport', eval = FALSE}
+```{r 'createReport'}
 ## Create the report
 report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
     'Q-values' = 'FDR', 'P-values' = 'p-value'), densityVars = c(
@@ -98,40 +95,6 @@ report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
     customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
     annotation = annotation, densityTemplates = densityTemplates)
 ```
-
-```{r 'createReportReal', echo = FALSE, results = 'hide'}
-save(regions, annotation, densityTemplates, file = 'regionsTemp.Rdata')
-## Generate the HTML report in a clean environment
-library('devtools')
-
-cat("## Generate the report in an isolated environment
-## This helps avoid https://github.com/rstudio/rmarkdown/issues/248
-
-## Load library and data
-library('regionReport')
-library('DiffBind')
-data(tamoxifen_analysis)
-load('regionsTemp.Rdata')
-
-## Create report
-report <- renderReport(regions, 'Example DiffBind', pvalueVars = c(
-    'Q-values' = 'FDR', 'P-values' = 'p-value'), densityVars = c(
-    'Fold' = 'Fold', 'Mean concentration' = 'Conc', 
-    'Concentration (resistant)' = 'Conc_Resistant', 
-    'Concentration (responsive)' = 'Conc_Responsive'), 
-    significantVar = regions$FDR < 0.1, nBestRegions = 100,
-    outdir = 'DiffBind-example', output = 'index',
-    customCode = file.path(getwd(), 'DiffBind_custom.Rmd'), 
-    annotation = annotation, densityTemplates = densityTemplates)
-    
-## Clean up
-file.remove('regionsTemp.Rdata')
-", file = 'diffbindReport-isolated.R')
-clean_source('diffbindReport-isolated.R', quiet=TRUE)
-file.remove('diffbindReport-isolated.R')
-```
-
-
 
 You can view the final report at [DiffBind-example](/regionReportSupp/DiffBind-example/index.html).
 
