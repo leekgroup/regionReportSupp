@@ -11,7 +11,7 @@
 <meta name="author" content="L Collado-Torres" />
 
 
-<title>Example with data from bumphunter</title>
+<title>Example report using bumphunter results</title>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -48,11 +48,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 <div id="header">
-<h1 class="title">Example with data from bumphunter</h1>
+<h1 class="title">Example report using bumphunter results</h1>
 <h4 class="author"><em>L Collado-Torres</em></h4>
 <h4 class="date"><em>1 April 2016</em></h4>
 </div>
-<h4 class="package">Package version: <span style="font-weight: normal">regionReport 1.5.29</span></h4>
+<h4 class="package">Package version: <span style="font-weight: normal">regionReport 1.5.30</span></h4>
 
 <h1>Contents</h1>
 <div id="TOC">
@@ -223,20 +223,23 @@ regions</code></pre>
 <pre class="r"><code>## Load regionReport
 library('regionReport')</code></pre>
 <pre class="r"><code>## Make it so that the report will be available as a vignette
-cat(&quot;
-&lt;!--
-%\\VignetteEngine{knitr::rmarkdown}
-%\\VignetteIndexEntry{Basic genomic regions exploration}
-%\\VignetteEncoding{UTF-8}  
---&gt;
-&quot;, file = 'bumphunter-example/vignetteInfo.Rmd')
+original &lt;- readLines(system.file('regionExploration', 'regionExploration.Rmd',
+    package = 'regionReport'))
+vignetteInfo &lt;- c(
+    'vignette: &gt;',
+    '  %\\VignetteEngine{knitr::rmarkdown}',
+    '  %\\VignetteIndexEntry{Basic genomic regions exploration}',
+    '  %\\VignetteEncoding{UTF-8}'
+)
+new &lt;- c(original[1:12], vignetteInfo, original[13:length(original)])
+writeLines(new, '/Users/lcollado/Dropbox/JHSPH/Code/regionReportSupp/bumphunter-example/regionReportBumphunter.Rmd')
 
 ## Now create the report
 report &lt;- renderReport(regions, 'Example bumphunter', pvalueVars = NULL,
     densityVars = c('Area' = 'area', 'Value' = 'value',
     'Cluster Length' = 'clusterL'), significantVar = NULL,
     output = 'index', outdir = 'bumphunter-example',
-    customCode = 'vignetteInfo.Rmd', device = 'png')</code></pre>
+    template = '/Users/lcollado/Dropbox/JHSPH/Code/regionReportSupp/bumphunter-example/regionReportBumphunter.Rmd', device = 'png')</code></pre>
 <pre><code>## Writing 11 Bibtex entries ...</code></pre>
 <pre><code>## OK
 ## Results written to file 'bumphunter-example/index.bib'</code></pre>
@@ -467,17 +470,7 @@ report &lt;- renderReport(regions, 'Example bumphunter', pvalueVars = NULL,
 ## List of 3
 ##  $ child: symbol customCode
 ##  $ eval : symbol hasCustomCode
-##  $ dev  : symbol device</code></pre>
-<pre><code>## 
-## 
-## processing file: ./vignetteInfo.Rmd</code></pre>
-<pre><code>## 
-  |                                                                       
-  |                                                                 |   0%
-  |                                                                       
-  |.................................................................| 100%
-##   ordinary text without R code
-## 
+##  $ dev  : symbol device
 ## 
 ## 
   |                                                                       
@@ -546,11 +539,11 @@ report &lt;- renderReport(regions, 'Example bumphunter', pvalueVars = NULL,
   |.................................................................| 100%
 ##   ordinary text without R code</code></pre>
 <pre><code>## output file: index.knit.md</code></pre>
-<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmpHRQto0/rmarkdown-str8286717fa135.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
+<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmpABKBrT/rmarkdown-str9af175e4d8ac.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
 <pre><code>## 
 ## Output created: index.html</code></pre>
 <pre class="r"><code>## Clean up
-file.remove('bumphunter-example/vignetteInfo.Rmd')</code></pre>
+file.remove('/Users/lcollado/Dropbox/JHSPH/Code/regionReportSupp/bumphunter-example/regionReportBumphunter.Rmd')</code></pre>
 <pre><code>## [1] TRUE</code></pre>
 <p>You can view the final report <a href="/regionReportSupp/bumphunter-example/index.html">here</a>.</p>
 </div>
@@ -558,11 +551,11 @@ file.remove('bumphunter-example/vignetteInfo.Rmd')</code></pre>
 <h1><span class="header-section-number">2</span> Reproducibility</h1>
 <pre class="r"><code>## Date generated:
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-04-01 01:30:33 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2016-04-01 05:01:22 EDT&quot;</code></pre>
 <pre class="r"><code>## Time spent making this page:
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-## 137.334   5.253 142.362</code></pre>
+## 130.696   5.251 136.121</code></pre>
 <pre class="r"><code>## R and packages info:
 options(width = 120)
 devtools::session_info()</code></pre>
@@ -665,7 +658,7 @@ devtools::session_info()</code></pre>
 ##  Rcpp                                0.12.4   2016-03-26 CRAN (R 3.3.0)                           
 ##  RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                           
 ##  RefManageR                          0.10.12  2016-03-31 CRAN (R 3.3.0)                           
-##  regionReport                      * 1.5.29   2016-04-01 Bioconductor                             
+##  regionReport                      * 1.5.30   2016-04-01 Bioconductor                             
 ##  registry                            0.3      2015-07-08 CRAN (R 3.3.0)                           
 ##  reshape                             0.8.5    2014-04-23 CRAN (R 3.3.0)                           
 ##  reshape2                            1.4.1    2014-12-06 CRAN (R 3.3.0)                           
