@@ -182,7 +182,7 @@ dds &lt;- DESeq(dds)</code></pre>
 <div id="html-report" class="section level1">
 <h1>HTML report</h1>
 <p>Once we have the input data we can use the <code>DESeq2Report()</code> function from <a href="http://bioconductor.org/packages/regionReport">regionReport</a>. First we create a directory where we’ll have the data.</p>
-<pre class="r"><code>## The output will be saved in the 'DiffBind-example' directory
+<pre class="r"><code>## The output will be saved in the 'DESeq2-example' directory
 dir.create('DESeq2-example', showWarnings = FALSE, recursive = TRUE)</code></pre>
 <p>Next, we can create the HTML report. In this case we’ll change the default theme by using the <code>theme_bw()</code> function from the <a href="https://cran.r-project.org/web/packages/ggplot2/index.html">ggplot2</a> package.</p>
 <pre class="r"><code>## Use ggplot2::theme_bw()
@@ -190,10 +190,10 @@ library('ggplot2')
 
 library('regionReport')
 ## Create the HTML report
-report &lt;- DESeq2Report(dds, project = 'HTML report',
+report &lt;- DESeq2Report(dds, project = 'DESeq2 HTML report',
     intgroup = c('condition', 'type'), outdir = 'DESeq2-example',
     output = 'index', theme = theme_bw())</code></pre>
-<pre><code>## Writing 9 Bibtex entries ...</code></pre>
+<pre><code>## Writing 10 Bibtex entries ...</code></pre>
 <pre><code>## OK
 ## Results written to file 'DESeq2-example/index.bib'</code></pre>
 <pre><code>## 
@@ -436,7 +436,7 @@ report &lt;- DESeq2Report(dds, project = 'HTML report',
   |.................................................................| 100%
 ##   ordinary text without R code</code></pre>
 <pre><code>## output file: index.knit.md</code></pre>
-<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp5MQvn4/rmarkdown-str7fe47cafadc8.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
+<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmpRVKa9W/rmarkdown-str1165d5a5a58b6.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
 <pre><code>## 
 ## Output created: index.html</code></pre>
 <p>You can view the final HTML report at <a href="/regionReportSupp/DESeq2-example/index.html">DESeq2-example</a>.</p>
@@ -445,7 +445,7 @@ report &lt;- DESeq2Report(dds, project = 'HTML report',
 <h1>PDF report</h1>
 <p>The HTML report has an interactive table with the top features (in this case genes). It allows you to re-order these top features by different criteria or even search for your feature of interest. However, sometimes you might prefer to create a PDF report. The following code will allow you to create such a report.</p>
 <pre class="r"><code>## Create PDF version of the same report
-report &lt;- DESeq2Report(dds, project = 'PDF report', 
+report &lt;- DESeq2Report(dds, project = 'DESeq2 PDF report', 
     intgroup = c('condition', 'type'), outdir = 'DESeq2-example',
     output = 'DESeq2Report', theme = theme_bw(), output_format = 'pdf_document',
     device = 'pdf')</code></pre>
@@ -459,11 +459,11 @@ report &lt;- DESeq2Report(dds, project = 'PDF report',
 <h1>Reproducibility</h1>
 <pre class="r"><code>## Date generated:
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-04-01 01:22:55 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2016-04-07 18:28:25 EDT&quot;</code></pre>
 <pre class="r"><code>## Time spent making this page:
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-##  86.635   3.870  91.879</code></pre>
+## 104.477   4.725 112.344</code></pre>
 <pre class="r"><code>## R and packages info:
 options(width = 120)
 devtools::session_info()</code></pre>
@@ -475,12 +475,13 @@ devtools::session_info()</code></pre>
 ##  language (EN)                                     
 ##  collate  en_US.UTF-8                              
 ##  tz       America/New_York                         
-##  date     2016-04-01</code></pre>
+##  date     2016-04-07</code></pre>
 <pre><code>## Packages ---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package              * version  date       source                                   
 ##  acepack                1.3-3.3  2014-11-24 CRAN (R 3.3.0)                           
 ##  annotate               1.49.1   2016-02-06 Bioconductor                             
 ##  AnnotationDbi          1.33.7   2016-01-29 Bioconductor                             
+##  backports              1.0.2    2016-03-18 CRAN (R 3.3.0)                           
 ##  bibtex                 0.4.0    2014-12-31 CRAN (R 3.3.0)                           
 ##  Biobase              * 2.31.3   2016-01-14 Bioconductor                             
 ##  BiocGenerics         * 0.17.3   2016-01-29 Bioconductor                             
@@ -490,11 +491,13 @@ devtools::session_info()</code></pre>
 ##  bitops                 1.0-6    2013-08-17 CRAN (R 3.3.0)                           
 ##  BSgenome               1.39.4   2016-02-21 Bioconductor                             
 ##  bumphunter             1.11.5   2016-03-29 Bioconductor                             
+##  checkmate              1.7.3    2016-03-10 CRAN (R 3.3.0)                           
 ##  cluster                2.0.3    2015-07-21 CRAN (R 3.3.0)                           
 ##  codetools              0.2-14   2015-07-15 CRAN (R 3.3.0)                           
 ##  colorout             * 1.1-2    2016-03-24 Github (jalvesaq/colorout@f96c00c)       
 ##  colorspace             1.2-6    2015-03-11 CRAN (R 3.3.0)                           
 ##  DBI                    0.3.1    2014-09-24 CRAN (R 3.3.0)                           
+##  DEFormats              0.99.8   2016-03-31 Bioconductor                             
 ##  derfinder              1.5.30   2016-03-25 Bioconductor                             
 ##  derfinderHelper        1.5.3    2016-03-23 Bioconductor                             
 ##  DESeq                  1.23.1   2016-01-14 Bioconductor                             
@@ -503,6 +506,7 @@ devtools::session_info()</code></pre>
 ##  digest                 0.6.9    2016-01-08 CRAN (R 3.3.0)                           
 ##  doRNG                  1.6      2014-03-07 CRAN (R 3.3.0)                           
 ##  DT                   * 0.1      2015-06-09 CRAN (R 3.3.0)                           
+##  edgeR                  3.13.5   2016-03-16 Bioconductor                             
 ##  evaluate               0.8.3    2016-03-05 CRAN (R 3.3.0)                           
 ##  foreach                1.4.3    2015-10-13 CRAN (R 3.3.0)                           
 ##  foreign                0.8-66   2015-08-19 CRAN (R 3.3.0)                           
@@ -532,6 +536,7 @@ devtools::session_info()</code></pre>
 ##  labeling               0.3      2014-08-23 CRAN (R 3.3.0)                           
 ##  lattice                0.20-33  2015-07-14 CRAN (R 3.3.0)                           
 ##  latticeExtra           0.6-28   2016-02-09 CRAN (R 3.3.0)                           
+##  limma                  3.27.14  2016-03-23 Bioconductor                             
 ##  locfit                 1.5-9.1  2013-04-20 CRAN (R 3.3.0)                           
 ##  lubridate              1.5.0    2015-12-03 CRAN (R 3.3.0)                           
 ##  magrittr               1.5      2014-11-22 CRAN (R 3.3.0)                           
@@ -551,7 +556,7 @@ devtools::session_info()</code></pre>
 ##  Rcpp                   0.12.4   2016-03-26 CRAN (R 3.3.0)                           
 ##  RCurl                  1.95-4.8 2016-03-01 CRAN (R 3.3.0)                           
 ##  RefManageR             0.10.12  2016-03-31 CRAN (R 3.3.0)                           
-##  regionReport         * 1.5.29   2016-04-01 Bioconductor                             
+##  regionReport         * 1.5.34   2016-04-07 Bioconductor                             
 ##  registry               0.3      2015-07-08 CRAN (R 3.3.0)                           
 ##  reshape2               1.4.1    2014-12-06 CRAN (R 3.3.0)                           
 ##  RJSONIO                1.3-0    2014-07-28 CRAN (R 3.3.0)                           

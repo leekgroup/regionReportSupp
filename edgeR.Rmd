@@ -1,0 +1,129 @@
+---
+output:
+  html_document:
+    theme: spacelab
+  knitrBootstrap::bootstrap_document:
+    theme.chooser: TRUE
+    highlight.chooser: TRUE
+---
+
+`edgeR` example
+==================
+
+[edgeR](http://bioconductor.org/packages/edgeR) is one of the most commonly used packages for performing differential expression analysis. It has been for a while on the top 5% of downloaded Bioconductor packages. The [vignette](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) explains how to run a `edgeR` analysis. For this example we'll use simulated data created with [DEFormats](http://bioconductor.org/packages/DEFormats).
+
+This example will show you how to use `regionReport` to make interactive HTML reports from `edgeR` results. It will also cover how to create a PDF report.
+
+# Input data
+
+First we need to simulate count data and will do so using the [DEFormats](http://bioconductor.org/packages/DEFormats) package. Once we have the count data, we need to create a _DGEList_ object and then perform the differential expression analysis using several functions from [edgeR](http://bioconductor.org/packages/edgeR).
+
+```{r 'loadData'}
+## Create example data using DEFormats
+library('DEFormats')
+set.seed(20160407)
+counts <- simulateRnaSeqData(n = 2e4, m = 12)
+group <- rep(c('A', 'B'), each = 6)
+
+## Create DGEList object
+library('edgeR')
+dge <- DGEList(counts, group = group)
+
+## Perform DE analysis with edgeR
+design <- model.matrix( ~ group)
+dge <- estimateDisp(dge, design)
+fit <- glmFit(dge, design)
+lrt <- glmLRT(fit, coef = 2)
+```
+
+# HTML report
+
+Once we have the input data we can use the `edgeReport()` function from [regionReport](http://bioconductor.org/packages/regionReport). First we create a directory where we'll have the data.
+
+```{r 'createOutputDir'}
+## The output will be saved in the 'edgeR-example' directory
+dir.create('edgeR-example', showWarnings = FALSE, recursive = TRUE)
+```
+
+Next, we can create the HTML report. In this case we'll change the default theme by using the `theme_linedraw()` function from the [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) package.
+
+```{r 'createReport'}
+## Use ggplot2::theme_linedraw()
+library('ggplot2')
+
+library('regionReport')
+## Create the HTML report
+report <- edgeReport(dge, lrt, project = 'edgeR HTML report',
+    intgroup = 'group', outdir = 'edgeR-example',
+    output = 'index', theme = theme_linedraw())
+```
+
+
+You can view the final HTML report at [edgeR-example](/regionReportSupp/edgeR-example/index.html).
+
+# PDF report
+
+The HTML report has an interactive table with the top features (in this case genes). It allows you to re-order these top features by different criteria or even search for your feature of interest. However, sometimes you might prefer to create a PDF report. The following code will allow you to create such a report.
+
+```{r 'createReportPDF', eval = FALSE}
+## Create PDF version of the same report
+report <- DESeq2Report(dge, lrt, project = 'edgeR PDF report', 
+    intgroup = 'group', outdir = 'edgeR-example',
+    output = 'edgeReport', theme = theme_linedraw(),
+    output_format = 'pdf_document', device = 'pdf')
+```
+
+
+```{r 'createReportRealPDF', echo = FALSE, results = 'hide'}
+## Generate the HTML report in a clean environment
+library('devtools')
+
+cat("## Generate the report in an isolated environment
+## This helps avoid https://github.com/rstudio/rmarkdown/issues/248
+
+library('DEFormats')
+set.seed(20160407)
+counts <- simulateRnaSeqData(n = 2e4, m = 12)
+group <- rep(c('A', 'B'), each = 6)
+
+## Create DGEList object
+library('edgeR')
+dge <- DGEList(counts, group = group)
+
+## Perform DE analysis with edgeR
+design <- model.matrix( ~ group)
+dge <- estimateDisp(dge, design)
+fit <- glmFit(dge, design)
+lrt <- glmLRT(fit, coef = 2)
+
+## Use ggplot2::theme_linedraw()
+library('ggplot2')
+
+## Create PDF version of the same report
+library('regionReport')
+report <- edgeReport(dge, lrt, project = 'edgeR PDF report', 
+    intgroup = 'group', outdir = 'edgeR-example',
+    output = 'edgeReport', theme = theme_linedraw(), output_format = 'pdf_document',
+    device = 'pdf')
+
+", file = 'edgeR-report-isolated-PDF.R')
+clean_source('edgeR-report-isolated-PDF.R', quiet=TRUE)
+file.remove('edgeR-report-isolated-PDF.R')
+```
+
+You can view the final PDF report at [edgeR-example PDF](/regionReportSupp/edgeR-example/edgeReport.pdf).
+
+# Reproducibility
+
+```{r 'reproducibility'}
+## Date generated:
+Sys.time()
+
+## Time spent making this page:
+proc.time()
+
+## R and packages info:
+options(width = 120)
+devtools::session_info()
+```
+

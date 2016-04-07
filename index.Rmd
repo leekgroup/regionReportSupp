@@ -16,7 +16,11 @@ This is the supplementary website for the [regionReport](http://bioconductor.org
 
 ## `DESeq2` case
 
-[regionReport](http://bioconductor.org/packages/regionReport) has a specific template for `DESeq2` results. The file [DESEq2.html](/regionReportSupp/DESeq2.html) shows how to create a HTML and a PDF report using results from `DESeq2`. The resulting HTML report is available at [DESeq2-example](/regionReportSupp/DESeq2-example/index.html) and the PDF version at [DESeq2REport](/regionReportSupp/DESeq2-example/DESEq2Report.pdf).
+[regionReport](http://bioconductor.org/packages/regionReport) has a specific template for `DESeq2` results. The file [DESEq2.html](/regionReportSupp/DESeq2.html) shows how to create a HTML and a PDF report using results from `DESeq2`. The resulting HTML report is available at [DESeq2-example](/regionReportSupp/DESeq2-example/index.html) and the PDF version at [DESeq2Report](/regionReportSupp/DESeq2-example/DESEq2Report.pdf).
+
+## `edgeR` case
+
+[regionReport](http://bioconductor.org/packages/regionReport) can use `edgeR` results to create reports that look nearly identical to the reports from `DESeq2` results. The file [edgeR.html](/regionReportSupp/edgeR.html) shows how to create a HTML and a PDF report using results from `edgeR`. The resulting HTML report is available at [edgeR-example](/regionReportSupp/edgeR-example/index.html) and the PDF version at [edgerReport](/regionReportSupp/edgeR-example/edgeReport.pdf). 
 
 ## `bumphunter` case
 
@@ -66,7 +70,7 @@ That command should install all the dependencies for using `regionReport`. This 
 ## Here is the full list of suggested packages by regionReport
 source('http://bioconductor.org/biocLite.R')
 biocLite(c('BiocStyle', 'biovizBase', 'bumphunter', 'Cairo', 'derfinderPlot',
-    'devtools', 'DT', 'DESeq', 'ggbio', 'ggplot2', 'grid', 'gridExtra',
+    'devtools', 'DT', 'DESeq', 'edgeR', 'ggbio', 'ggplot2', 'grid', 'gridExtra',
     'IRanges', 'mgcv', 'pasilla', 'pheatmap', 'RColorBrewer',
     'TxDb.Hsapiens.UCSC.hg19.knownGene', 'whisker'))
 ```
@@ -86,6 +90,10 @@ Some of the examples require other packages, in which case you would need to ins
 ## DESeq2 example
 source("http://bioconductor.org/biocLite.R")
 biocLite('pasilla')
+
+## edgeR example
+source("http://bioconductor.org/biocLite.R")
+biocLite(c('edgeR', 'DEFormats'))
 
 ## Bumphunter example, deps are part of the suggested list of packages
 source("http://bioconductor.org/biocLite.R")

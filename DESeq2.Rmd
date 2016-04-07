@@ -42,7 +42,7 @@ dds <- DESeq(dds)
 Once we have the input data we can use the `DESeq2Report()` function from [regionReport](http://bioconductor.org/packages/regionReport). First we create a directory where we'll have the data.
 
 ```{r 'createOutputDir'}
-## The output will be saved in the 'DiffBind-example' directory
+## The output will be saved in the 'DESeq2-example' directory
 dir.create('DESeq2-example', showWarnings = FALSE, recursive = TRUE)
 ```
 
@@ -54,7 +54,7 @@ library('ggplot2')
 
 library('regionReport')
 ## Create the HTML report
-report <- DESeq2Report(dds, project = 'HTML report',
+report <- DESeq2Report(dds, project = 'DESeq2 HTML report',
     intgroup = c('condition', 'type'), outdir = 'DESeq2-example',
     output = 'index', theme = theme_bw())
 ```
@@ -68,7 +68,7 @@ The HTML report has an interactive table with the top features (in this case gen
 
 ```{r 'createReportPDF', eval = FALSE}
 ## Create PDF version of the same report
-report <- DESeq2Report(dds, project = 'PDF report', 
+report <- DESeq2Report(dds, project = 'DESeq2 PDF report', 
     intgroup = c('condition', 'type'), outdir = 'DESeq2-example',
     output = 'DESeq2Report', theme = theme_bw(), output_format = 'pdf_document',
     device = 'pdf')
