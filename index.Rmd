@@ -16,7 +16,7 @@ This is the supplementary website for the [regionReport](http://bioconductor.org
 
 ## `DESeq2` case
 
-[regionReport](http://bioconductor.org/packages/regionReport) has a specific template for `DESeq2` results. The file [DESEq2.html](/regionReportSupp/DESeq2.html) shows how to create a HTML and a PDF report using results from `DESeq2`. The resulting HTML report is available at [DESeq2-example](/regionReportSupp/DESeq2-example/index.html) and the PDF version at [DESeq2Report](/regionReportSupp/DESeq2-example/DESEq2Report.pdf).
+[regionReport](http://bioconductor.org/packages/regionReport) has a specific template for `DESeq2` results. The file [DESEq2.html](/regionReportSupp/DESeq2.html) shows how to create a HTML and a PDF report using results from `DESeq2`. The resulting HTML report is available at [DESeq2-example](/regionReportSupp/DESeq2-example/index.html) and the PDF version at [DESeq2Report](/regionReportSupp/DESeq2-example/DESeq2Report.pdf).
 
 ## `edgeR` case
 
