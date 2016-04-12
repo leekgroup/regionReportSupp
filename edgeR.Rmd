@@ -12,7 +12,7 @@ output:
 `edgeR` example
 ==================
 
-```{r 'bibSetup', echo = FALSE}
+```{r 'bibSetup', echo = FALSE, warning = FALSE, message = FALSE}
 library('knitcitations')
 
 write.bibtex(c(
@@ -22,11 +22,11 @@ write.bibtex(c(
     edgeR4 = citation('edgeR')[5],
     edgeR6 = RefManageR::BibEntry('inbook', key = 'edgeR6', author = 'Chen, Yunshun and Lun, Aaron T. L. and Smyth, Gordon K.', title = 'Differential expression analysis of complex RNA-seq experiments using edgeR', booktitle = 'Statistical Analysis of Next Generation Sequencing Data', year = 2014, editor = 'Datta, Somnath and Nettleton, Dan', publisher = 'Springer', location = 'New York', pages = '51-74')
 ), file = 'edgeR.bib')
-bib <- read.bibtex('edgeR.bib')
-names(bib) <- c('knitcitations', 'DEFormats', 'edgeR2', 'edgeR5', 'edgeR6')
+bib_edgeR <- read.bibtex('edgeR.bib')
+names(bib_edgeR) <- c('knitcitations', 'DEFormats', 'edgeR2', 'edgeR5', 'edgeR6')
 ```
 
-[edgeR](http://bioconductor.org/packages/edgeR) `r citep(bib[[c('edgeR2', 'edgeR5', 'edgeR6')]])` is one of the most commonly used packages for performing differential expression analysis. It has been for a while on the top 5% of downloaded Bioconductor packages. The [vignette](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) explains how to run a `edgeR` analysis. For this example we'll use simulated data created with [DEFormats](http://bioconductor.org/packages/DEFormats) `r citep(bib[[c('DEFormats')]])`.
+[edgeR](http://bioconductor.org/packages/edgeR) `r citep(bib_edgeR[[c('edgeR2', 'edgeR5', 'edgeR6')]])` is one of the most commonly used packages for performing differential expression analysis. It has been for a while on the top 5% of downloaded Bioconductor packages. The [vignette](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) explains how to run a `edgeR` analysis. For this example we'll use simulated data created with [DEFormats](http://bioconductor.org/packages/DEFormats) `r citep(bib_edgeR[[c('DEFormats')]])`.
 
 This example will show you how to use `regionReport` to make interactive HTML reports from `edgeR` results. It will also cover how to create a PDF report.
 
@@ -160,7 +160,7 @@ devtools::session_info()
 
 # Bibliography
 
-Citations made with `knitcitations`  `r citep(bib[[c('knitcitations')]])`. Bibliography file: [edgeR.bib](edgeR.bib). You can find more code on how to run `edgeR-robust` at [imlspenticton.uzh.ch/robinson_lab/edgeR_robust/](http://imlspenticton.uzh.ch/robinson_lab/edgeR_robust/) which is the supplementary website for `r citep(bib[['edgeR5']])`.
+Citations made with `knitcitations`  `r citep(bib_edgeR[[c('knitcitations')]])`. Bibliography file: [edgeR.bib](edgeR.bib). You can find more code on how to run `edgeR-robust` at [imlspenticton.uzh.ch/robinson_lab/edgeR_robust/](http://imlspenticton.uzh.ch/robinson_lab/edgeR_robust/) which is the supplementary website for `r citep(bib_edgeR[['edgeR5']])`.
 
 ```{r bibindex, results='asis', echo=FALSE, warning = FALSE}
 ## Print bibliography

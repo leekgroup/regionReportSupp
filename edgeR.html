@@ -203,11 +203,6 @@ div.tocify {
 
 <div id="edger-example" class="section level1">
 <h1><code>edgeR</code> example</h1>
-<pre><code>## Warning in citation(&quot;DEFormats&quot;): no date field in DESCRIPTION file of
-## package 'DEFormats'</code></pre>
-<pre><code>## Writing 5 Bibtex entries ...</code></pre>
-<pre><code>## OK
-## Results written to file 'edgeR.bib'</code></pre>
 <p><a href="http://bioconductor.org/packages/edgeR">edgeR</a> (McCarthy, J., Chen, Yunshun, Smyth, and K., 2012; Zhou, Lindsay, and Robinson, 2014; Chen, Lun, and Smyth, 2014) is one of the most commonly used packages for performing differential expression analysis. It has been for a while on the top 5% of downloaded Bioconductor packages. The <a href="https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf">vignette</a> explains how to run a <code>edgeR</code> analysis. For this example we’ll use simulated data created with <a href="http://bioconductor.org/packages/DEFormats">DEFormats</a> (Oleś, 2016).</p>
 <p>This example will show you how to use <code>regionReport</code> to make interactive HTML reports from <code>edgeR</code> results. It will also cover how to create a PDF report.</p>
 </div>
@@ -520,7 +515,7 @@ report &lt;- edgeReport(dge, lrt, project = 'edgeR HTML report',
   |.................................................................| 100%
 ##   ordinary text without R code</code></pre>
 <pre><code>## output file: index.knit.md</code></pre>
-<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmphEy2It/rmarkdown-str2e2153a0851a.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
+<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp2pmNhs/rmarkdown-str330426b21582.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
 <pre><code>## 
 ## Output created: index.html</code></pre>
 <pre class="r"><code>## Create the HTML report for edgeR-robust results
@@ -792,7 +787,7 @@ report_robust &lt;- edgeReport(dge_robust, lrw,
   |.................................................................| 100%
 ##   ordinary text without R code</code></pre>
 <pre><code>## output file: index.knit.md</code></pre>
-<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmphEy2It/rmarkdown-str2e21694ab9c8.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
+<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp2pmNhs/rmarkdown-str3304643de9f6.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
 <pre><code>## 
 ## Output created: index.html</code></pre>
 <p>You can view the final HTML reports here:</p>
@@ -819,11 +814,11 @@ report &lt;- DESeq2Report(dge, lrt, project = 'edgeR PDF report',
 <h1>Reproducibility</h1>
 <pre class="r"><code>## Date generated:
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-04-11 22:15:20 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2016-04-11 23:37:31 EDT&quot;</code></pre>
 <pre class="r"><code>## Time spent making this page:
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-## 250.864  13.518 279.854</code></pre>
+## 263.276  12.488 284.377</code></pre>
 <pre class="r"><code>## R and packages info:
 options(width = 120)
 devtools::session_info()</code></pre>
