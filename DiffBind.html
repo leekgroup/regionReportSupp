@@ -242,7 +242,7 @@ genes &lt;- annotateTranscripts(txdb = txdb)</code></pre>
 <pre class="r"><code>system.time( annotation &lt;- matchGenes(x = regions, subject = genes) )</code></pre>
 <pre><code>## ............................</code></pre>
 <pre><code>##    user  system elapsed 
-## 136.490   2.803 144.247</code></pre>
+## 146.944   2.040 156.441</code></pre>
 <pre class="r"><code>## Save for future use
 save(annotation, file = 'annotation-DiffBind.Rdata')</code></pre>
 <p><code>renderReport()</code> allows you to change templates for the distribution plots. By default these are density plots, but lets say that you prefer plotting histograms. Density plots can be useful when you have regions from many chromosomes, but in this case there’s only data for chromosome 18. First, lets explore the default templates.</p>
@@ -735,7 +735,7 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
   |.................................................................| 100%
 ##   ordinary text without R code</code></pre>
 <pre><code>## output file: index.knit.md</code></pre>
-<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//RtmptTl8el/rmarkdown-str2f3a24496f4d.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
+<pre><code>## /usr/local/bin/pandoc +RTS -K512m -RTS index.utf8.md --to html --from markdown+autolink_bare_uris+ascii_identifiers+tex_math_single_backslash-implicit_figures --output index.html --smart --email-obfuscation none --self-contained --standalone --section-divs --table-of-contents --toc-depth 3 --variable toc_float=1 --variable toc_selectors=h1,h2,h3 --variable toc_collapsed=1 --variable toc_smooth_scroll=1 --template /Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/default.html --variable 'theme:spacelab' --include-in-header /var/folders/cx/n9s558kx6fb7jf5z_pgszgb80000gn/T//Rtmp2AY30e/rmarkdown-str3a68150f2baa.html --mathjax --variable 'mathjax-url:https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --no-highlight --variable highlightjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/highlight --variable navigationjs=/Library/Frameworks/R.framework/Versions/3.3/Resources/library/rmarkdown/rmd/h/navigation-1.0 --variable code_folding=hide</code></pre>
 <pre><code>## 
 ## Output created: index.html</code></pre>
 <p>You can view the final report at <a href="/regionReportSupp/DiffBind-example/index.html">DiffBind-example</a>.</p>
@@ -744,11 +744,11 @@ report &lt;- renderReport(regions, 'Example DiffBind', pvalueVars = c(
 <h1>Reproducibility</h1>
 <pre class="r"><code>## Date generated:
 Sys.time()</code></pre>
-<pre><code>## [1] &quot;2016-04-11 22:20:44 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2016-04-12 07:37:58 EDT&quot;</code></pre>
 <pre class="r"><code>## Time spent making this page:
 proc.time()</code></pre>
 <pre><code>##    user  system elapsed 
-## 287.608  10.155 310.877</code></pre>
+## 302.477   8.879 329.579</code></pre>
 <pre class="r"><code>## R and packages info:
 options(width = 120)
 devtools::session_info()</code></pre>
@@ -760,7 +760,7 @@ devtools::session_info()</code></pre>
 ##  language (EN)                                     
 ##  collate  en_US.UTF-8                              
 ##  tz       America/New_York                         
-##  date     2016-04-11</code></pre>
+##  date     2016-04-12</code></pre>
 <pre><code>## Packages ---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package                           * version  date       source                                   
 ##  acepack                             1.3-3.3  2014-11-24 CRAN (R 3.3.0)                           
@@ -876,7 +876,7 @@ devtools::session_info()</code></pre>
 ##  Rcpp                                0.12.4   2016-03-26 CRAN (R 3.3.0)                           
 ##  RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                           
 ##  RefManageR                          0.10.13  2016-04-04 CRAN (R 3.3.0)                           
-##  regionReport                      * 1.5.45   2016-04-12 Bioconductor                             
+##  regionReport                      * 1.5.47   2016-04-12 Bioconductor                             
 ##  registry                            0.3      2015-07-08 CRAN (R 3.3.0)                           
 ##  reshape                             0.8.5    2014-04-23 CRAN (R 3.3.0)                           
 ##  reshape2                            1.4.1    2014-12-06 CRAN (R 3.3.0)                           

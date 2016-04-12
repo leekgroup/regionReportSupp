@@ -225,7 +225,7 @@ div.tocify {
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>This report is meant to help explore a set of genomic regions and was generated using the <code>regionReport</code> <a id="cite-regionReport"></a>(<a href="http://www.bioconductor.org/packages/regionReport">Collado-Torres, Jaffe, and Leek, 2015</a>) package. While the report is rich, it is meant to just start the exploration of the results and exemplify some of the code used to do so. If you need a more in-depth analysis for your specific data set you might want to use the <code>customCode</code> argument.</p>
+<p>This report is meant to help explore a set of genomic regions and was generated using the <code>regionReport</code> <a id="cite-regionReport"></a>(<a href="http://f1000research.com/articles/4-105/v1">Collado-Torres, Jaffe, and Leek, 2015</a>) package. While the report is rich, it is meant to just start the exploration of the results and exemplify some of the code used to do so. If you need a more in-depth analysis for your specific data set you might want to use the <code>customCode</code> argument.</p>
 <p>Most plots were made with using <code>ggplot2</code> <a id="cite-ggplot2"></a>(<a href="http://ggplot2.org">Wickham, 2009</a>).</p>
 <div id="code-setup" class="section level2">
 <h2>Code setup</h2>
@@ -538,9 +538,9 @@ if(outputIsHTML) {
 ##     outdir = &quot;bumphunter-example&quot;, output = &quot;index&quot;, device = &quot;png&quot;, 
 ##     template = &quot;/Users/lcollado/Dropbox/JHSPH/Code/regionReportSupp/bumphunter-example/regionReportBumphunter.Rmd&quot;)</code></pre>
 <p>Date the report was generated.</p>
-<pre><code>## [1] &quot;2016-04-11 22:14:38 EDT&quot;</code></pre>
+<pre><code>## [1] &quot;2016-04-12 07:36:16 EDT&quot;</code></pre>
 <p>Wallclock time spent generating the report.</p>
-<pre><code>## Time difference of 2.624 mins</code></pre>
+<pre><code>## Time difference of 3.061 mins</code></pre>
 <p><code>R</code> session information.</p>
 <pre><code>## Session info -----------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  setting  value                                    
@@ -550,7 +550,7 @@ if(outputIsHTML) {
 ##  language (EN)                                     
 ##  collate  en_US.UTF-8                              
 ##  tz       America/New_York                         
-##  date     2016-04-11</code></pre>
+##  date     2016-04-12</code></pre>
 <pre><code>## Packages ---------------------------------------------------------------------------------------------------------------</code></pre>
 <pre><code>##  package                           * version  date       source                                   
 ##  acepack                             1.3-3.3  2014-11-24 CRAN (R 3.3.0)                           
@@ -645,7 +645,7 @@ if(outputIsHTML) {
 ##  Rcpp                                0.12.4   2016-03-26 CRAN (R 3.3.0)                           
 ##  RCurl                               1.95-4.8 2016-03-01 CRAN (R 3.3.0)                           
 ##  RefManageR                          0.10.13  2016-04-04 CRAN (R 3.3.0)                           
-##  regionReport                      * 1.5.45   2016-04-12 Bioconductor                             
+##  regionReport                      * 1.5.47   2016-04-12 Bioconductor                             
 ##  registry                            0.3      2015-07-08 CRAN (R 3.3.0)                           
 ##  reshape                             0.8.5    2014-04-23 CRAN (R 3.3.0)                           
 ##  reshape2                            1.4.1    2014-12-06 CRAN (R 3.3.0)                           
@@ -675,7 +675,7 @@ if(outputIsHTML) {
 </div>
 <div id="bibliography" class="section level1">
 <h1>Bibliography</h1>
-<p>This report was created with <code>regionReport</code> (<a href="http://www.bioconductor.org/packages/regionReport">Collado-Torres, Jaffe, and Leek, 2015</a>) using <code>rmarkdown</code> <a id="cite-rmarkdown"></a>(<a href="https://CRAN.R-project.org/package=rmarkdown">Allaire, Cheng, Xie, McPherson, et al., 2016</a>) while <code>knitr</code> <a id="cite-knitr"></a>(<a href="http://www.crcpress.com/product/isbn/9781466561595">Xie, 2014</a>) and <code>DT</code> <a id="cite-DT"></a>(<a href="https://CRAN.R-project.org/package=DT">Xie, 2015</a>) were running behind the scenes. <code>whisker</code> <a id="cite-whisker"></a>(<a href="https://CRAN.R-project.org/package=whisker">de Jonge, 2013</a>) was used for creating templates for the <code>pvalueVars</code> and <code>densityVars</code>.</p>
+<p>This report was created with <code>regionReport</code> (<a href="http://f1000research.com/articles/4-105/v1">Collado-Torres, Jaffe, and Leek, 2015</a>) using <code>rmarkdown</code> <a id="cite-rmarkdown"></a>(<a href="https://CRAN.R-project.org/package=rmarkdown">Allaire, Cheng, Xie, McPherson, et al., 2016</a>) while <code>knitr</code> <a id="cite-knitr"></a>(<a href="http://www.crcpress.com/product/isbn/9781466561595">Xie, 2014</a>) and <code>DT</code> <a id="cite-DT"></a>(<a href="https://CRAN.R-project.org/package=DT">Xie, 2015</a>) were running behind the scenes. <code>whisker</code> <a id="cite-whisker"></a>(<a href="https://CRAN.R-project.org/package=whisker">de Jonge, 2013</a>) was used for creating templates for the <code>pvalueVars</code> and <code>densityVars</code>.</p>
 <p>Citations made with <code>knitcitations</code> <a id="cite-knitcitations"></a>(<a href="https://CRAN.R-project.org/package=knitcitations">Boettiger, 2015</a>). The <a href="http://www.bibtex.org/">BibTeX</a> file can be found <a href="index.bib">here</a>.</p>
 <p>
 <a id="bib-rmarkdown"></a><a href="#cite-rmarkdown">[1]</a><cite> J. Allaire, J. Cheng, Y. Xie, J. McPherson, et al. <em>rmarkdown: Dynamic Documents for R</em>. R package version 0.9.5. 2016. URL: <a href="https://CRAN.R-project.org/package=rmarkdown">https://CRAN.R-project.org/package=rmarkdown</a>.</cite>
@@ -690,7 +690,7 @@ if(outputIsHTML) {
 <a id="bib-derfinderPlot"></a><a href="#cite-derfinderPlot">[4]</a><cite> L. Collado-Torres, A. E. Jaffe and J. T. Leek. <em>derfinderPlot: Plotting functions for derfinder</em>. <a href="https://github.com/leekgroup/derfinderPlot" class="uri">https://github.com/leekgroup/derfinderPlot</a> - R package version 1.5.7. 2015. URL: <a href="http://www.bioconductor.org/packages/derfinderPlot">http://www.bioconductor.org/packages/derfinderPlot</a>.</cite>
 </p>
 <p>
-<a id="bib-regionReport"></a><a href="#cite-regionReport">[5]</a><cite> L. Collado-Torres, A. E. Jaffe and J. T. Leek. <em>regionReport: Generate HTML reports for exploring a set of regions</em>. <a href="https://github.com/leekgroup/regionReport" class="uri">https://github.com/leekgroup/regionReport</a> - R package version 1.5.45. 2015. URL: <a href="http://www.bioconductor.org/packages/regionReport">http://www.bioconductor.org/packages/regionReport</a>.</cite>
+<a id="bib-regionReport"></a><a href="#cite-regionReport">[5]</a><cite> L. Collado-Torres, A. E. Jaffe and J. T. Leek. “regionReport: Interactive reports for region-based analyses”. In: <em>F1000Research</em> 4 (2015), p. 105. DOI: <a href="http://dx.doi.org/10.12688/f1000research.6379.1">10.12688/f1000research.6379.1</a>. URL: <a href="http://f1000research.com/articles/4-105/v1">http://f1000research.com/articles/4-105/v1</a>.</cite>
 </p>
 <p>
 <a id="bib-whisker"></a><a href="#cite-whisker">[6]</a><cite> E. de Jonge. <em>whisker: mustache for R, logicless templating</em>. R package version 0.3-2. 2013. URL: <a href="https://CRAN.R-project.org/package=whisker">https://CRAN.R-project.org/package=whisker</a>.</cite>
