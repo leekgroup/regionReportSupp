@@ -1,6 +1,8 @@
 ---
 output:
   html_document:
+    toc: true
+    toc_float: true
     theme: spacelab
   knitrBootstrap::bootstrap_document:
     theme.chooser: TRUE
@@ -10,13 +12,27 @@ output:
 `edgeR` example
 ==================
 
-[edgeR](http://bioconductor.org/packages/edgeR) is one of the most commonly used packages for performing differential expression analysis. It has been for a while on the top 5% of downloaded Bioconductor packages. The [vignette](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) explains how to run a `edgeR` analysis. For this example we'll use simulated data created with [DEFormats](http://bioconductor.org/packages/DEFormats).
+```{r 'bibSetup', echo = FALSE}
+library('knitcitations')
+
+write.bibtex(c(
+    knitcitations = citation('knitcitations'),
+    DEFormats = citation('DEFormats'),
+    edgeR2 = citation('edgeR')[2],
+    edgeR4 = citation('edgeR')[5],
+    edgeR6 = RefManageR::BibEntry('inbook', key = 'edgeR6', author = 'Chen, Yunshun and Lun, Aaron T. L. and Smyth, Gordon K.', title = 'Differential expression analysis of complex RNA-seq experiments using edgeR', booktitle = 'Statistical Analysis of Next Generation Sequencing Data', year = 2014, editor = 'Datta, Somnath and Nettleton, Dan', publisher = 'Springer', location = 'New York', pages = '51-74')
+), file = 'edgeR.bib')
+bib <- read.bibtex('edgeR.bib')
+names(bib) <- c('knitcitations', 'DEFormats', 'edgeR2', 'edgeR5', 'edgeR6')
+```
+
+[edgeR](http://bioconductor.org/packages/edgeR) `r citep(bib[[c('edgeR2', 'edgeR5', 'edgeR6')]])` is one of the most commonly used packages for performing differential expression analysis. It has been for a while on the top 5% of downloaded Bioconductor packages. The [vignette](https://bioconductor.org/packages/release/bioc/vignettes/edgeR/inst/doc/edgeRUsersGuide.pdf) explains how to run a `edgeR` analysis. For this example we'll use simulated data created with [DEFormats](http://bioconductor.org/packages/DEFormats) `r citep(bib[[c('DEFormats')]])`.
 
 This example will show you how to use `regionReport` to make interactive HTML reports from `edgeR` results. It will also cover how to create a PDF report.
 
 # Input data
 
-First we need to simulate count data and will do so using the [DEFormats](http://bioconductor.org/packages/DEFormats) package. Once we have the count data, we need to create a _DGEList_ object and then perform the differential expression analysis using several functions from [edgeR](http://bioconductor.org/packages/edgeR).
+First we need to simulate count data and will do so using the [DEFormats](http://bioconductor.org/packages/DEFormats) package. Once we have the count data, we need to create a _DGEList_ object and then perform the differential expression analysis using several functions from [edgeR](http://bioconductor.org/packages/edgeR). We'll perform two types of analyses: one using `edgeR` and another one using `edgeR-robust`.
 
 ```{r 'loadData'}
 ## Create example data using DEFormats
@@ -25,15 +41,20 @@ set.seed(20160407)
 counts <- simulateRnaSeqData(n = 2e4, m = 12)
 group <- rep(c('A', 'B'), each = 6)
 
-## Create DGEList object
+## Create DGEList object and specify the design
 library('edgeR')
-dge <- DGEList(counts, group = group)
+d <- DGEList(counts, group = group)
+design <- model.matrix( ~ group)
 
 ## Perform DE analysis with edgeR
-design <- model.matrix( ~ group)
-dge <- estimateDisp(dge, design)
+dge <- estimateDisp(d, design)
 fit <- glmFit(dge, design)
 lrt <- glmLRT(fit, coef = 2)
+
+## Alternatively perform DE analysis with edgeR-robust
+dge_robust <- estimateGLMRobustDisp(d, design)
+fw <- glmFit(dge_robust, design = design)
+lrw <- glmLRT(fw, coef = 2)
 ```
 
 # HTML report
@@ -41,8 +62,9 @@ lrt <- glmLRT(fit, coef = 2)
 Once we have the input data we can use the `edgeReport()` function from [regionReport](http://bioconductor.org/packages/regionReport). First we create a directory where we'll have the data.
 
 ```{r 'createOutputDir'}
-## The output will be saved in the 'edgeR-example' directory
+## The output will be saved in 'edgeR-example' and 'edgeR-robust-example'
 dir.create('edgeR-example', showWarnings = FALSE, recursive = TRUE)
+dir.create('edgeR-robust-example', showWarnings = FALSE, recursive = TRUE)
 ```
 
 Next, we can create the HTML report. In this case we'll change the default theme by using the `theme_linedraw()` function from the [ggplot2](https://cran.r-project.org/web/packages/ggplot2/index.html) package.
@@ -52,18 +74,27 @@ Next, we can create the HTML report. In this case we'll change the default theme
 library('ggplot2')
 
 library('regionReport')
-## Create the HTML report
+## Create the HTML report for edgeR results
 report <- edgeReport(dge, lrt, project = 'edgeR HTML report',
     intgroup = 'group', outdir = 'edgeR-example',
+    output = 'index', theme = theme_linedraw())
+    
+## Create the HTML report for edgeR-robust results
+report_robust <- edgeReport(dge_robust, lrw,
+    project = 'edgeR-robust HTML report',
+    intgroup = 'group', outdir = 'edgeR-robust-example',
     output = 'index', theme = theme_linedraw())
 ```
 
 
-You can view the final HTML report at [edgeR-example](/regionReportSupp/edgeR-example/index.html).
+You can view the final HTML reports here:
+
+* `edgeR` results [edgeR-example](/regionReportSupp/edgeR-example/index.html),
+* `edgeR-robust` results [edgeR-robust-example](/regionReportSupp/edgeR-robust-example/index.html).
 
 # PDF report
 
-The HTML report has an interactive table with the top features (in this case genes). It allows you to re-order these top features by different criteria or even search for your feature of interest. However, sometimes you might prefer to create a PDF report. The following code will allow you to create such a report.
+The HTML report has an interactive table with the top features (in this case genes). It allows you to re-order these top features by different criteria or even search for your feature of interest. However, sometimes you might prefer to create a PDF report. The following code will allow you to create such a report for the `edgeR` results we previously calculated.
 
 ```{r 'createReportPDF', eval = FALSE}
 ## Create PDF version of the same report
@@ -125,5 +156,14 @@ proc.time()
 ## R and packages info:
 options(width = 120)
 devtools::session_info()
+```
+
+# Bibliography
+
+Citations made with `knitcitations`  `r citep(bib[[c('knitcitations')]])`. Bibliography file: [edgeR.bib](edgeR.bib). You can find more code on how to run `edgeR-robust` at [imlspenticton.uzh.ch/robinson_lab/edgeR_robust/](http://imlspenticton.uzh.ch/robinson_lab/edgeR_robust/) which is the supplementary website for `r citep(bib[['edgeR5']])`.
+
+```{r bibindex, results='asis', echo=FALSE, warning = FALSE}
+## Print bibliography
+bibliography()
 ```
 

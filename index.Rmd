@@ -20,7 +20,7 @@ This is the supplementary website for the [regionReport](http://bioconductor.org
 
 ## `edgeR` case
 
-[regionReport](http://bioconductor.org/packages/regionReport) can use `edgeR` results to create reports that look nearly identical to the reports from `DESeq2` results. The file [edgeR.html](/regionReportSupp/edgeR.html) shows how to create a HTML and a PDF report using results from `edgeR`. The resulting HTML report is available at [edgeR-example](/regionReportSupp/edgeR-example/index.html) and the PDF version at [edgerReport](/regionReportSupp/edgeR-example/edgeReport.pdf). 
+[regionReport](http://bioconductor.org/packages/regionReport) can use `edgeR` results to create reports that look nearly identical to the reports from `DESeq2` results along with some `edgeR` specific plots. The file [edgeR.html](/regionReportSupp/edgeR.html) shows how to create a HTML and a PDF report using results from `edgeR`. The resulting HTML report is available at [edgeR-example](/regionReportSupp/edgeR-example/index.html) and the PDF version at [edgerReport](/regionReportSupp/edgeR-example/edgeReport.pdf). The file [edgeR.html](/regionReportSupp/edgeR.html) also creates a HTML report for `edgeR-robust` results available at [edgeR-robust-example](/regionReportSupp/edgeR-robust-example/index.html).
 
 ## `bumphunter` case
 
@@ -63,7 +63,7 @@ source('http://bioconductor.org/biocLite.R')
 biocLite('regionReport')
 ```
 
-That command should install all the dependencies for using `regionReport`. This package does suggest a couple other ones, which you might not need to use. If you wish to install them use:
+That command should install all the dependencies for using `regionReport`. This package does suggest several other packages, which you might not need to use. It will depend on the type of report that you are creating. If you wish to install them use:
 
 
 ```{r 'installSuggested', eval = FALSE}
