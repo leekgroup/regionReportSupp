@@ -38,7 +38,7 @@ An example using [DiffBind](http://bioconductor.org/packages/DiffBind) is showca
 
 ## `derfinder` cases
 
-This section uses different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2015/02/19/015370)).
+This section uses different data sets as described in the `derfinder` paper ([bioRxiv preprint](http://biorxiv.org/content/early/2016/05/07/015370)).
 
 The reports can be viewed following these links:
 
